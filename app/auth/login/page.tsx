@@ -1,4 +1,5 @@
-import { Button } from "@/components/ui/button";
+"use client";
+
 import {
   Card,
   CardAction,
@@ -8,14 +9,58 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Controller, useForm } from "react-hook-form";
+import { loginSchema } from "@/app/schemas/auth";
+import {
+  Field,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+} from "@/components/ui/field";
+import { authClient } from "@/lib/auth-client";
+import { z } from "zod";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import { useTransition } from "react";
+import { Spinner } from "@/components/ui/spinner";
 
 export default function LoginPage() {
+  const [ispending, startTransition] = useTransition();
+  const router = useRouter();
+  const form = useForm({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+
+  function handleLoginButton(data: z.infer<typeof loginSchema>) {
+    startTransition(async () => {
+      await authClient.signIn.email({
+        email: data.email,
+        password: data.password,
+        fetchOptions: {
+          onSuccess: () => {
+            toast.success("Logged in successfully");
+            router.push("/");
+          },
+          onError: (error) => {
+            toast.error(error.error.message);
+          },
+        },
+      });
+    });
+  }
+
   return (
     <section className="">
-      <Card className="w-full max-w-sm">
+      <Card>
         <CardHeader>
           <CardTitle>Login to your account</CardTitle>
           <CardDescription>
@@ -28,36 +73,76 @@ export default function LoginPage() {
           </CardAction>
         </CardHeader>
         <CardContent>
-          <form>
-            <div className="flex flex-col gap-6">
-              <div className="grid gap-2">
-                <Label htmlFor="email">Email</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="m@example.com"
-                  required
-                />
-              </div>
-              <div className="grid gap-2">
-                <div className="flex items-center">
-                  <Label htmlFor="password">Password</Label>
-                  <a
-                    href="#"
-                    className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
-                  >
-                    Forgot your password?
-                  </a>
-                </div>
-                <Input id="password" type="password" required />
-              </div>
-            </div>
+          <form id="login-form" onSubmit={form.handleSubmit(handleLoginButton)}>
+            <FieldGroup className="gap-y-4">
+              <Controller
+                name="email"
+                control={form.control}
+                render={({ field, fieldState }) => (
+                  <Field>
+                    <FieldLabel>Email</FieldLabel>
+                    <Input
+                      aria-invalid={fieldState.invalid}
+                      placeholder="example@gmail.com"
+                      type="email"
+                      {...field}
+                    />
+                    {fieldState.error && (
+                      <FieldError errors={[fieldState.error]} />
+                    )}
+                  </Field>
+                )}
+              />
+              <Controller
+                name="password"
+                control={form.control}
+                render={({ field, fieldState }) => (
+                  <Field>
+                    <div className="flex items-center">
+                      <FieldLabel>Password</FieldLabel>
+                      <a
+                        href="#"
+                        className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
+                      >
+                        Forgot your password?
+                      </a>
+                    </div>
+                    <Input
+                      aria-invalid={fieldState.invalid}
+                      type="password"
+                      {...field}
+                    />
+                    {fieldState.error && (
+                      <FieldError errors={[fieldState.error]} />
+                    )}
+                  </Field>
+                )}
+              />
+            </FieldGroup>
           </form>
         </CardContent>
-        <CardFooter className="flex-col gap-2">
-          <Button type="submit" className="w-full">
-            Login
+
+        <CardFooter className="flex-col gap-3">
+          <Button
+            disabled={ispending}
+            type="submit"
+            form="login-form"
+            className="w-full"
+          >
+            {ispending ? (
+              <>
+                <Spinner data-icon="inline-start" />
+                <span>Loading...</span>
+              </>
+            ) : (
+              "login"
+            )}
           </Button>
+          <div className="flex justify-center items-center gap-2 w-full">
+            <hr className="flex-1" />
+            <span className="text-center">or</span>
+            <hr className="flex-1" />
+          </div>
           <Button variant="outline" className="w-full">
             Login with Google
           </Button>

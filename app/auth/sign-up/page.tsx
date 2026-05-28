@@ -17,11 +17,19 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { Spinner } from "@/components/ui/spinner";
+import { authClient } from "@/lib/auth-client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useTransition } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
 
 export default function SignUpPage() {
+  const [ispending, startTransition] = useTransition();
+  const router = useRouter();
   const form = useForm({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
@@ -31,8 +39,25 @@ export default function SignUpPage() {
     },
   });
 
-  function handleSubmitButton() {
-    console.log("yo");
+  function handleSubmitButton(data: z.infer<typeof signUpSchema>) {
+    startTransition(async () => {
+      await authClient.signUp.email({
+        email: data.email,
+        name: data.name,
+        password: data.password,
+        fetchOptions: {
+          onSuccess: () => {
+            toast.success("Account created successfully", {
+              position: "top-center",
+            });
+            router.push("/");
+          },
+          onError: (error) => {
+            toast.error(error.error.message);
+          },
+        },
+      });
+    });
   }
 
   return (
@@ -42,7 +67,7 @@ export default function SignUpPage() {
         <CardDescription>Create an account to get started</CardDescription>
       </CardHeader>
       <CardContent>
-        <form onSubmit={form.handleSubmit(handleSubmitButton)}>
+        <form id="signup-form" onSubmit={form.handleSubmit(handleSubmitButton)}>
           <FieldGroup className="gap-y-4">
             <Controller
               name="name"
@@ -69,7 +94,7 @@ export default function SignUpPage() {
                   <FieldLabel>Email</FieldLabel>
                   <Input
                     aria-invalid={fieldState.invalid}
-                    placeholder="exampel@gmail.com"
+                    placeholder="example@gmail.com"
                     type="email"
                     {...field}
                   />
@@ -101,10 +126,26 @@ export default function SignUpPage() {
       </CardContent>
 
       <CardFooter className="flex-col gap-2">
-        <Button type="submit" className="w-full cursor-pointer">
-          Sign Up
+        <Button
+          disabled={ispending}
+          form="signup-form"
+          type="submit"
+          className="w-full cursor-pointer"
+        >
+          {ispending ? (
+            <>
+              <Spinner data-icon="inline-start" />
+              <span>Loading...</span>
+            </>
+          ) : (
+            "Sign Up"
+          )}
         </Button>
-        <span className="w-full text-center">Or have an account</span>
+        <div className="flex justify-center items-center gap-2 w-full">
+          <hr className="flex-1" />
+          <span className="text-center">or have an account</span>
+          <hr className="flex-1" />
+        </div>
         <Link
           href={"/auth/login"}
           className={`w-full ${buttonVariants({ variant: "outline" })}`}

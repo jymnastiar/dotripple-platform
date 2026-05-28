@@ -4,11 +4,12 @@ import { ThemeProvider } from "@/components/ui/theme-provider";
 import { Geist } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { ConvexClientProvider } from "@/components/web/ConvexClientProvider";
+import { Toaster } from "@/components/ui/sonner";
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 
 export const metadata: Metadata = {
-  title: "Leason 1",
+  title: "Project Nextjs 1",
   description: "This is my nextjs leason",
 };
 
@@ -32,6 +33,7 @@ export default function RootLayout({
             <ConvexClientProvider>{children}</ConvexClientProvider>
           </ThemeProvider>
         </main>
+        <Toaster closeButton />
       </body>
     </html>
   );

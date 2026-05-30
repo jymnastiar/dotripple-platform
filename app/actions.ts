@@ -17,6 +17,7 @@ export async function createBlogAction(data: z.infer<typeof postSchema>) {
       image: parsed.data.image,
       title: parsed.data.title,
       body: parsed.data.content,
+      tags: parsed.data.tags,
     });
     revalidatePath("/");
     return { success: true };

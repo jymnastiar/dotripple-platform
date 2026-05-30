@@ -1,0 +1,45 @@
+[
+  {
+    "value": "Frontend & Frameworks",
+    "items": [
+      "Next.js",
+      "SvelteKit",
+      "Nuxt.js",
+      "Remix",
+      "Astro",
+      "Vue",
+      "React",
+      "Angular",
+      "SolidJS",
+      "Qwik"
+    ]
+  },
+  {
+    "value": "Languages",
+    "items": ["TypeScript", "JavaScript", "Python", "Go", "Rust"]
+  },
+  {
+    "value": "Backend & API",
+    "items": ["Node.js", "Bun", "Hono", "Express", "Fastify", "GraphQL", "tRPC"]
+  },
+  {
+    "value": "Database & ORM",
+    "items": [
+      "Convex",
+      "Supabase",
+      "Prisma",
+      "Drizzle",
+      "PostgreSQL",
+      "MongoDB",
+      "Redis"
+    ]
+  },
+  {
+    "value": "Styling & UI",
+    "items": ["Tailwind CSS", "Shadcn UI", "Framer Motion", "CSS Modules"]
+  },
+  {
+    "value": "DevOps & Deployment",
+    "items": ["Vercel", "Docker", "GitHub Actions"]
+  }
+]

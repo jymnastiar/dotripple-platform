@@ -6,6 +6,7 @@ export default defineSchema({
     image: v.optional(v.string()),
     title: v.string(),
     body: v.string(),
+    tags: v.array(v.string()),
     authorId: v.string(),
   }),
 });

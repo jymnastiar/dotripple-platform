@@ -20,27 +20,67 @@ import {
 import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
 import { Textarea } from "@/components/ui/textarea";
+import { api } from "@/convex/_generated/api";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "convex/react";
 import { useRouter } from "next/navigation";
-import { useTransition } from "react";
+import React, { useState, useTransition } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
 export default function CreatePage() {
+  const [preview, setPreview] = useState<string | null>(null);
+  const [selectedFile, setSelecteFile] = useState<File | null>(null);
   const router = useRouter();
   const [ispending, startTransition] = useTransition();
+  const generateUploadUrl = useMutation(api.posts.generateUploadUrl);
+
   const form = useForm({
     resolver: zodResolver(postSchema),
     defaultValues: {
+      image: "",
       title: "",
       content: "",
     },
   });
 
+  function handlePreview(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (file) {
+      setSelecteFile(file);
+      setPreview(URL.createObjectURL(file));
+    } else {
+      setSelecteFile(null);
+      setPreview(null);
+    }
+  }
+
   function handleCreatePost(data: z.infer<typeof postSchema>) {
     startTransition(async () => {
-      const result = await createBlogAction(data);
+      let storageId = "";
+      if (selectedFile) {
+        try {
+          const postUrl = await generateUploadUrl();
+          const result = await fetch(postUrl, {
+            method: "POST",
+            headers: { "Content-type": selectedFile.type },
+            body: selectedFile,
+          });
+          const json = await result.json();
+          storageId = json.storateId;
+        } catch (err) {
+          toast.error("Failed to upload image");
+          return;
+        }
+      }
+
+      const finalData = {
+        ...data,
+        image: storageId,
+      };
+
+      const result = await createBlogAction(finalData);
 
       if (result.success) {
         toast.success("Blog has been posted", { position: "top-center" });
@@ -75,6 +115,23 @@ export default function CreatePage() {
         <CardContent className="mt-4">
           <form id="post-form" onSubmit={form.handleSubmit(handleCreatePost)}>
             <FieldGroup className="gap-y-4">
+              <Field>
+                <FieldLabel>Upload an image</FieldLabel>
+                <Input
+                  type="file"
+                  accept="image/*"
+                  placeholder="Choose file"
+                  onChange={handlePreview}
+                />
+                {preview && (
+                  <img
+                    className="max-h-64 w-auto block object-contain"
+                    src={preview}
+                    alt="image preview"
+                  />
+                )}
+              </Field>
+
               <Controller
                 name="title"
                 control={form.control}

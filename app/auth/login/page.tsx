@@ -67,7 +67,9 @@ export default function LoginPage() {
           </CardDescription>
           <CardAction>
             <Link href={"/auth/sign-up"}>
-              <Button variant="link">Sign Up</Button>
+              <Button className="cursor-pointer" variant="link">
+                Sign Up
+              </Button>
             </Link>
           </CardAction>
         </CardHeader>
@@ -126,7 +128,7 @@ export default function LoginPage() {
             disabled={ispending}
             type="submit"
             form="login-form"
-            className="w-full"
+            className="w-full cursor-pointer"
           >
             {ispending ? (
               <>
@@ -142,7 +144,7 @@ export default function LoginPage() {
             <span className="text-center">or</span>
             <hr className="flex-1" />
           </div>
-          <Button variant="outline" className="w-full">
+          <Button variant="outline" className="w-full cursor-pointer">
             Login with Google
           </Button>
         </CardFooter>

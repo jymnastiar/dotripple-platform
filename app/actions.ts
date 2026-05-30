@@ -7,13 +7,14 @@ import { fetchAuthMutation } from "@/lib/auth-server";
 import { revalidatePath } from "next/cache";
 
 export async function createBlogAction(data: z.infer<typeof postSchema>) {
-  const parsed = postSchema.safeParse(data); //? zod methode
+  const parsed = postSchema.safeParse(data); //? safeParse = zod methode
 
   if (!parsed.success) {
     return { success: false, error: "Invalid data" };
   }
   try {
     await fetchAuthMutation(api.posts.createTask, {
+      image: parsed.data.image,
       title: parsed.data.title,
       body: parsed.data.content,
     });

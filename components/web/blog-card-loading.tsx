@@ -5,7 +5,7 @@ export default function BlogCardLoading() {
   return (
     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
       {Array.from({ length: 3 }).map((_, i) => (
-        <Card key={i} className="w-full max-w-sm">
+        <Card key={i} className="mx-auto w-full max-w-sm">
           <CardContent>
             <Skeleton className="aspect-video w-full" />
           </CardContent>

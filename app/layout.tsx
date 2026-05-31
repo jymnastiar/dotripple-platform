@@ -23,7 +23,7 @@ export default function RootLayout({
       className={cn("h-full", "antialiased", "font-sans", dmSans.variable)}
     >
       <body className="min-h-full flex flex-col">
-        <main className="max-w-7xl mx-auto w-full px-4 md:px-6 lg:px-8">
+        <main className="min-h-full flex flex-col">
           <ThemeProvider
             attribute="class"
             defaultTheme="system"

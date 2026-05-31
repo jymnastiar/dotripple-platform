@@ -253,7 +253,7 @@ export default function CreatePage() {
                               {values.map((value: string) => (
                                 <ComboboxChip key={value}>{value}</ComboboxChip>
                               ))}
-                              <ComboboxChipsInput />
+                              <ComboboxChipsInput placeholder="select tags" />
                             </React.Fragment>
                           )}
                         </ComboboxValue>

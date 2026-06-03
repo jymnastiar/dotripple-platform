@@ -35,16 +35,18 @@ export default function SignUpPage() {
     defaultValues: {
       email: "",
       name: "",
+      username: "",
       password: "",
     },
   });
 
   function handleSubmitButton(data: z.infer<typeof signUpSchema>) {
     startTransition(async () => {
-      await authClient.signUp.email({
+      await (authClient.signUp.email as any)({
         email: data.email,
         name: data.name,
         password: data.password,
+        username: data.username,
         fetchOptions: {
           onSuccess: () => {
             toast.success("Account created successfully", {
@@ -52,7 +54,7 @@ export default function SignUpPage() {
             });
             router.push("/");
           },
-          onError: (error) => {
+          onError: (error: { error: { message: string } }) => {
             toast.error(error.error.message);
           },
         },
@@ -77,7 +79,7 @@ export default function SignUpPage() {
                   <FieldLabel>Full Name</FieldLabel>
                   <Input
                     aria-invalid={fieldState.invalid}
-                    placeholder="Supri Yadi"
+                    placeholder="John Doe"
                     {...field}
                   />
                   {fieldState.error && (
@@ -96,6 +98,23 @@ export default function SignUpPage() {
                     aria-invalid={fieldState.invalid}
                     placeholder="example@gmail.com"
                     type="email"
+                    {...field}
+                  />
+                  {fieldState.error && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
+                </Field>
+              )}
+            />
+            <Controller
+              name="username"
+              control={form.control}
+              render={({ field, fieldState }) => (
+                <Field>
+                  <FieldLabel>Username</FieldLabel>
+                  <Input
+                    aria-invalid={fieldState.invalid}
+                    placeholder="john_doe"
                     {...field}
                   />
                   {fieldState.error && (

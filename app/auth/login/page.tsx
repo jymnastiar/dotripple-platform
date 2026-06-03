@@ -77,7 +77,7 @@ export default function LoginPage() {
           <form id="login-form" onSubmit={form.handleSubmit(handleLoginButton)}>
             <FieldGroup className="gap-y-4">
               <Controller
-                name="email"
+                name={"email"}
                 control={form.control}
                 render={({ field, fieldState }) => (
                   <Field>

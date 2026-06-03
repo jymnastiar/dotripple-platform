@@ -28,6 +28,24 @@ export const createTask = mutation({
   },
 });
 
+export const getPostsByAuthor = query({
+  args: { authorId: v.string() },
+  handler: async (ctx, args) => {
+    const posts = await ctx.db
+      .query("posts")
+      .withIndex("by_authorId", (q) => q.eq("authorId", args.authorId))
+      .order("desc")
+      .collect();
+
+    return Promise.all(
+      posts.map(async (post) => ({
+        ...post,
+        imageUrl: post.image ? await ctx.storage.getUrl(post.image) : null,
+      })),
+    );
+  },
+});
+
 export const generateUploadUrl = mutation({
   args: {},
   handler: async (ctx) => {

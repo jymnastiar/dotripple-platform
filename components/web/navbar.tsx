@@ -33,6 +33,7 @@ import {
 } from "../ui/alert-dialog";
 import { LogOut, Menu, Trash2Icon, X } from "lucide-react";
 import { AnimatedThemeToggler } from "../ui/animated-theme-toggler";
+import { getInitials } from "@/hooks/user-initial";
 
 export function Navbar() {
   const { isAuthenticated, isLoading } = useConvexAuth();
@@ -41,18 +42,8 @@ export function Navbar() {
   const getUser = useQuery(api.auth.getCurrentUser);
   const userName = getUser?.name;
   const userEmail = getUser?.email;
+  const user = getUser?.username;
 
-  // Fungsi untuk mengambil 1 atau 2 huruf awal dari nama lengkap
-  const getInitials = (name: string) => {
-    if (!name) return "none";
-    const names = name.trim().split(" ");
-    if (names.length >= 2) {
-      return (names[0][0] + names[1][0]).toUpperCase();
-    }
-    return names[0] ? names[0][0].toUpperCase() : "U";
-  };
-
-  // Fungsi Logout yang dipisahkan agar bisa digunakan di Desktop & Mobile
   const handleLogout = () => {
     authClient.signOut({
       fetchOptions: {
@@ -69,15 +60,8 @@ export function Navbar() {
     });
   };
 
-  // --- DATA LINK NAVIGASI ---
-  const navLinks = [
-    { title: "Home", path: "/" },
-    { title: "Blog", path: "/blog" },
-    { title: "Create", path: "/create" },
-  ];
-
   return (
-    <nav className="sticky top-0 w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border z-50">
+    <nav className="sticky top-0 w-full bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60 border-b border-border z-50">
       <div className="max-w-7xl mx-auto flex items-center justify-between py-4 px-4 md:px-8">
         <div className="flex items-center">
           <Link href="/">
@@ -91,15 +75,18 @@ export function Navbar() {
         {/* --- DESKTOP VIEW --- */}
         <div className="hidden md:flex flex-1 items-center justify-between ml-8">
           <div className="flex items-center gap-2">
-            {navLinks.map((link, idx) => (
-              <Link
-                key={idx}
-                className={buttonVariants({ variant: "ghost" })}
-                href={link.path}
-              >
-                {link.title}
-              </Link>
-            ))}
+            <Link className={buttonVariants({ variant: "ghost" })} href="/">
+              Home
+            </Link>
+            <Link className={buttonVariants({ variant: "ghost" })} href="/blog">
+              Blog
+            </Link>
+            <Link
+              className={buttonVariants({ variant: "ghost" })}
+              href="/create"
+            >
+              Create
+            </Link>
           </div>
 
           <div className="flex items-center gap-4">
@@ -122,7 +109,9 @@ export function Navbar() {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-32">
                   <DropdownMenuGroup>
-                    <DropdownMenuItem>Profile</DropdownMenuItem>
+                    <Link href={`/profile/${user}`}>
+                      <DropdownMenuItem>Profile</DropdownMenuItem>
+                    </Link>
                     <DropdownMenuItem>Settings</DropdownMenuItem>
                   </DropdownMenuGroup>
                   <DropdownMenuSeparator />
@@ -220,21 +209,42 @@ export function Navbar() {
         }`}
       >
         <ul className="flex flex-col p-4 space-y-2">
-          {/* Main Links */}
-          {navLinks.map((link, idx) => (
-            <li key={idx}>
-              <Link
-                className={buttonVariants({
-                  variant: "ghost",
-                  className: "justify-start w-full",
-                })}
-                href={link.path}
-                onClick={() => setMenuState(false)}
-              >
-                {link.title}
-              </Link>
-            </li>
-          ))}
+          <li>
+            <Link
+              className={buttonVariants({
+                variant: "ghost",
+                className: "justify-start w-full",
+              })}
+              href="/"
+              onClick={() => setMenuState(false)}
+            >
+              Home
+            </Link>
+          </li>
+          <li>
+            <Link
+              className={buttonVariants({
+                variant: "ghost",
+                className: "justify-start w-full",
+              })}
+              href="/blog"
+              onClick={() => setMenuState(false)}
+            >
+              Blog
+            </Link>
+          </li>
+          <li>
+            <Link
+              className={buttonVariants({
+                variant: "ghost",
+                className: "justify-start w-full",
+              })}
+              href="/Create"
+              onClick={() => setMenuState(false)}
+            >
+              Create
+            </Link>
+          </li>
 
           {/* Auth Section for Mobile */}
           <li className="pt-4 mt-2 border-t border-border">
@@ -252,7 +262,9 @@ export function Navbar() {
                       {getInitials(userName!)}
                     </AvatarFallback>
                   </Avatar>
-                  <span className="font-medium">{userEmail}</span>
+                  <span className="font-medium overflow-hidden">
+                    {userEmail}
+                  </span>
                 </div>
 
                 <Link

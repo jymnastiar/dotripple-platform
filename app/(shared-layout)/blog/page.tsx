@@ -1,8 +1,14 @@
+"use client";
+
 import { BlogCard } from "@/components/web/blog-card";
 import BlogCardLoading from "@/components/web/blog-card-loading";
+import { api } from "@/convex/_generated/api";
+import { fetchQuery } from "convex/nextjs";
+import { useQuery } from "convex/react";
 import { Suspense } from "react";
 
 export default function BlogPage() {
+  const blogs = useQuery(api.posts.getPosts);
   return (
     <section className="py-12">
       <div className="text-center pb-12">
@@ -16,7 +22,23 @@ export default function BlogPage() {
       </div>
 
       <Suspense fallback={<BlogCardLoading />}>
-        <BlogCard />
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {blogs === undefined ? (
+            <BlogCardLoading />
+          ) : blogs.length > 0 ? (
+            blogs.map((blog) => (
+              <BlogCard
+                key={blog._id}
+                title={blog.title}
+                tags={blog.tags}
+                imageUrl={blog.imageUrl || ""}
+                body={blog.body}
+              />
+            ))
+          ) : (
+            <h1>No blog here</h1>
+          )}
+        </div>
       </Suspense>
 
       <option value=""></option>

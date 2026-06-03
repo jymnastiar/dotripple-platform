@@ -8,6 +8,8 @@ export default defineSchema({
     body: v.string(),
     tags: v.array(v.string()),
     authorId: v.string(),
+    username: v.string(),
+    name: v.string(),
   }).index("by_authorId", ["authorId"]),
   users: defineTable({
     name: v.string(),

@@ -1,5 +1,6 @@
 import { createClient, type GenericCtx } from "@convex-dev/better-auth";
 import { convex } from "@convex-dev/better-auth/plugins";
+import { username } from "better-auth/plugins";
 import { isRunMutationCtx } from "@convex-dev/better-auth/utils";
 import { components, internal } from "./_generated/api";
 import { DataModel } from "./_generated/dataModel";
@@ -23,15 +24,6 @@ export const createAuth = (ctx: GenericCtx<DataModel>) => {
       enabled: true,
       requireEmailVerification: false,
     },
-    user: {
-      additionalFields: {
-        username: {
-          type: "string",
-          required: true,
-          input: true,
-        },
-      },
-    },
     databaseHooks: {
       user: {
         create: {
@@ -51,6 +43,7 @@ export const createAuth = (ctx: GenericCtx<DataModel>) => {
     plugins: [
       // The Convex plugin is required for Convex compatibility
       convex({ authConfig }),
+      username(),
     ],
   });
 };

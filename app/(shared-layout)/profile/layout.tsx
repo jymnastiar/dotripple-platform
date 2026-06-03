@@ -6,10 +6,11 @@ export default function ProfileLayout({ children }: { children: ReactNode }) {
       {/* Hero Section */}
       <div className="text-center">
         <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl">
-          Profile
+          User Profile
         </h1>
         <p className="pt-4 max-w-2xl mx-auto text-xl text-muted-foreground">
-          Make your own beatiful profile info
+          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Iusto,
+          minus.
         </p>
       </div>
 

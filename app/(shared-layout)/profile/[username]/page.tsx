@@ -10,9 +10,9 @@ import { useParams } from "next/navigation";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { authClient } from "@/lib/auth-client";
-import { BlogCard } from "@/components/web/blog-card";
 import BlogCardLoading from "@/components/web/blog-card-loading";
 import { getInitials } from "@/hooks/user-initial";
+import { UserBlogCard } from "@/components/web/user-blog-card";
 
 const TABS = ["Blogs", "Projects", "Likes", "Bookmark"];
 
@@ -53,7 +53,7 @@ export default function ProfilePage() {
     <div className="flex flex-col lg:flex-row gap-8">
       {/* Sidebar / Profile Info */}
       <aside className="w-full lg:w-80 shrink-0 space-y-6">
-        <Card className="border-none shadow-2xl bg-background/50 backdrop-blur-2xl ring-1 ring-white/10 overflow-hidden">
+        <Card className="border-none shadow-2xl bg-background/50 backdrop-blur-2xl ring-1 ring-border overflow-hidden">
           <CardContent className="pt-8">
             <div className="flex flex-col items-center text-center">
               <Avatar>
@@ -71,7 +71,7 @@ export default function ProfilePage() {
                 </p>
               </div>
 
-              <div className="w-full space-y-3.5 mt-8 p-4 rounded-2xl bg-muted/30 border border-border/50 text-left">
+              <div className="w-full space-y-3.5 mt-8 p-4 rounded-2xl bg-muted/30 border border-border text-left">
                 <div className="flex items-center gap-3 text-sm text-muted-foreground">
                   <Mail className="size-4 text-primary/70 shrink-0" />
                   <span>{user.email}</span>
@@ -86,14 +86,14 @@ export default function ProfilePage() {
       <main className="flex-1 space-y-8">
         {/* Navigation Tabs */}
         <div className="flex gap-5">
-          <div className="p-1.5 flex-1 bg-background/40 backdrop-blur-3xl rounded-2xl border border-white/10 shadow-2xl inline-flex justify-between w-full md:w-auto">
+          <div className="p-1.5 flex-1 bg-background/40 backdrop-blur-3xl rounded-2xl border border-border shadow-2xl inline-flex justify-between w-full md:w-auto">
             {TABS.map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
                 className={`
                   relative flex-1 md:flex-none px-8 py-2.5 text-sm font-bold transition-all rounded-xl
-                  ${activeTab === tab ? "text-primary-foreground" : "text-muted-foreground/80 hover:text-foreground hover:bg-white/5"}
+                  ${activeTab === tab ? "text-primary-foreground" : "text-muted-foreground/80 hover:text-foreground hover:bg-muted/50"}
                 `}
               >
                 {activeTab === tab && (
@@ -115,7 +115,7 @@ export default function ProfilePage() {
             <Button
               variant="outline"
               size="sm"
-              className="ml-auto bg-background/20 backdrop-blur-md border-white/10 text-white hover:bg-white/20"
+              className="ml-auto bg-background/20 backdrop-blur-md border-border text-foreground hover:bg-muted/50"
             >
               <Edit className="size-4 mr-2" /> Edit Profile
             </Button>
@@ -131,17 +131,17 @@ export default function ProfilePage() {
           className="space-y-8"
         >
           {activeTab === "Blogs" && (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
               {posts === undefined ? (
                 <BlogCardLoading />
               ) : posts.length > 0 ? (
-                posts.map((post) => (
-                  <BlogCard
-                    key={post._id}
-                    title={post.title}
-                    tags={post.tags}
-                    imageUrl={post.imageUrl || ""}
-                    body={post.body}
+                posts.map((blog) => (
+                  <UserBlogCard
+                    key={blog._id}
+                    title={blog.title}
+                    tags={blog.tags}
+                    imageUrl={blog.imageUrl || ""}
+                    body={blog.body}
                   />
                 ))
               ) : (

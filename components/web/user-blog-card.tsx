@@ -1,7 +1,6 @@
 import {
   Card,
   CardAction,
-  CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
@@ -10,8 +9,6 @@ import {
 import { Badge } from "../ui/badge";
 import Link from "next/link";
 import { buttonVariants } from "../ui/button";
-import { Avatar, AvatarFallback } from "../ui/avatar";
-import { getInitials } from "@/hooks/user-initial";
 
 interface BlogCard {
   _id?: string;
@@ -19,11 +16,9 @@ interface BlogCard {
   body: string;
   tags: string[];
   imageUrl?: string | null;
-  username: string;
-  name: string;
 }
 
-export function BlogCard(blogs: BlogCard) {
+export function UserBlogCard(blogs: BlogCard) {
   return (
     <Card key={blogs._id} className="mx-auto w-full max-w-sm">
       <img
@@ -38,17 +33,6 @@ export function BlogCard(blogs: BlogCard) {
         <CardTitle className="truncate">{blogs.title}</CardTitle>
         <CardDescription className="line-clamp-2">{blogs.body}</CardDescription>
       </CardHeader>
-      <CardContent className="flex items-center gap-3">
-        <Avatar className="size-8">
-          <AvatarFallback>{getInitials(blogs.name)}</AvatarFallback>
-        </Avatar>
-        <div className="flex flex-col overflow-hidden">
-          <span className="text-sm font-semibold truncate">{blogs.name}</span>
-          <span className="text-xs text-muted-foreground truncate">
-            {blogs.username}
-          </span>
-        </div>
-      </CardContent>
       <CardFooter>
         <Link
           className={`w-full cursor-pointer${buttonVariants()}`}

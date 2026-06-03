@@ -186,7 +186,7 @@ export default function CreatePage() {
                           setPreview(null);
                         }}
                         aria-label="Remove image"
-                        variant="outline"
+                        variant="destructive"
                         size="icon"
                         className="rounded-full absolute top-3 right-3 cursor-pointer"
                       >

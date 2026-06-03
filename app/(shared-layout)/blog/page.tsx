@@ -33,6 +33,8 @@ export default function BlogPage() {
                 tags={blog.tags}
                 imageUrl={blog.imageUrl || ""}
                 body={blog.body}
+                username={blog.username}
+                name={blog.name}
               />
             ))
           ) : (

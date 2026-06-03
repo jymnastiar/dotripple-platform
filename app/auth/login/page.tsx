@@ -34,26 +34,44 @@ export default function LoginPage() {
   const form = useForm({
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      email: "",
+      account: "",
       password: "",
     },
   });
 
   function handleLoginButton(data: z.infer<typeof loginSchema>) {
     startTransition(async () => {
-      await authClient.signIn.email({
-        email: data.email,
-        password: data.password,
-        fetchOptions: {
-          onSuccess: () => {
-            toast.success("Logged in successfully");
-            router.push("/");
+      const account = data.account.includes("@");
+
+      if (account) {
+        await authClient.signIn.email({
+          email: data.account,
+          password: data.password,
+          fetchOptions: {
+            onSuccess: () => {
+              toast.success("Logged in successfully");
+              router.push("/");
+            },
+            onError: (error) => {
+              toast.error(error.error.message);
+            },
           },
-          onError: (error) => {
-            toast.error(error.error.message);
+        });
+      } else {
+        await authClient.signIn.username({
+          username: data.account,
+          password: data.password,
+          fetchOptions: {
+            onSuccess: () => {
+              toast.success("Logged in successfully");
+              router.push("/");
+            },
+            onError: (error) => {
+              toast.error(error.error.message);
+            },
           },
-        },
-      });
+        });
+      }
     });
   }
 
@@ -77,15 +95,14 @@ export default function LoginPage() {
           <form id="login-form" onSubmit={form.handleSubmit(handleLoginButton)}>
             <FieldGroup className="gap-y-4">
               <Controller
-                name={"email"}
+                name={"account"}
                 control={form.control}
                 render={({ field, fieldState }) => (
                   <Field>
-                    <FieldLabel>Email</FieldLabel>
+                    <FieldLabel>Email or Username</FieldLabel>
                     <Input
                       aria-invalid={fieldState.invalid}
                       placeholder="example@gmail.com"
-                      type="email"
                       {...field}
                     />
                     {fieldState.error && (

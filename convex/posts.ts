@@ -23,6 +23,8 @@ export const createTask = mutation({
       body: args.body,
       tags: args.tags,
       authorId: user._id,
+      username: user.username!,
+      name: user.name!,
     });
     return blogArticle;
   },

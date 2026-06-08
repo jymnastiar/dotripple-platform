@@ -23,8 +23,6 @@ export const createTask = mutation({
       body: args.body,
       tags: args.tags,
       authorId: user._id,
-      username: user.username!,
-      name: user.name!,
     });
     return blogArticle;
   },
@@ -64,10 +62,20 @@ export const getPosts = query({
   handler: async (ctx) => {
     const posts = await ctx.db.query("posts").order("desc").collect();
     return Promise.all(
-      posts.map(async (post) => ({
-        ...post,
-        imageUrl: post.image ? await ctx.storage.getUrl(post.image) : null,
-      })),
+      posts.map(async (post) => {
+        const author = await ctx.db
+          .query("users")
+          .withIndex("by_betterAuthId", (q) =>
+            q.eq("betterAuthId", post.authorId),
+          )
+          .unique();
+        return {
+          ...post,
+          imageUrl: post.image ? await ctx.storage.getUrl(post.image) : null,
+          username: author?.username ?? "unknown",
+          name: author?.name ?? "Unknown User",
+        };
+      }),
     );
   },
 });

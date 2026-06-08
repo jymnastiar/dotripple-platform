@@ -1,6 +1,5 @@
 "use client";
 
-import { signUpSchema } from "@/app/schemas/auth";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Card,
@@ -18,49 +17,12 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
-import { authClient } from "@/lib/auth-client";
-import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useTransition } from "react";
-import { Controller, useForm } from "react-hook-form";
-import { toast } from "sonner";
-import { z } from "zod";
+import { Controller } from "react-hook-form";
+import { useSignUp } from "@/hooks/use-sign-up";
 
 export default function SignUpPage() {
-  const [ispending, startTransition] = useTransition();
-  const router = useRouter();
-  const form = useForm({
-    resolver: zodResolver(signUpSchema),
-    defaultValues: {
-      email: "",
-      name: "",
-      username: "",
-      password: "",
-    },
-  });
-
-  function handleSubmitButton(data: z.infer<typeof signUpSchema>) {
-    startTransition(async () => {
-      await (authClient.signUp.email as any)({
-        email: data.email,
-        name: data.name,
-        password: data.password,
-        username: data.username,
-        fetchOptions: {
-          onSuccess: () => {
-            toast.success("Account created successfully", {
-              position: "top-center",
-            });
-            router.push("/");
-          },
-          onError: (error: { error: { message: string } }) => {
-            toast.error(error.error.message);
-          },
-        },
-      });
-    });
-  }
+  const { form, isPending, handleSignUp } = useSignUp();
 
   return (
     <Card>
@@ -69,7 +31,7 @@ export default function SignUpPage() {
         <CardDescription>Create an account to get started</CardDescription>
       </CardHeader>
       <CardContent>
-        <form id="signup-form" onSubmit={form.handleSubmit(handleSubmitButton)}>
+        <form id="signup-form" onSubmit={form.handleSubmit(handleSignUp)}>
           <FieldGroup className="gap-y-4">
             <Controller
               name="name"
@@ -146,12 +108,12 @@ export default function SignUpPage() {
 
       <CardFooter className="flex-col gap-2">
         <Button
-          disabled={ispending}
+          disabled={isPending}
           form="signup-form"
           type="submit"
           className="w-full cursor-pointer"
         >
-          {ispending ? (
+          {isPending ? (
             <>
               <Spinner data-icon="inline-start" />
               <span>Loading...</span>

@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ui/theme-provider";
-import { Geist, DM_Sans } from "next/font/google";
+import { DM_Sans } from "next/font/google";
 import { cn } from "@/lib/utils";
-import { ConvexClientProvider } from "@/components/web/ConvexClientProvider";
+import { ConvexClientProvider } from "@/components/shared/convex-client-provider";
 import { Toaster } from "@/components/ui/sonner";
 
-const dmSans = DM_Sans({subsets:['latin'],variable:'--font-sans'});
+const dmSans = DM_Sans({ subsets: ["latin"], variable: "--font-sans" });
 
 export const metadata: Metadata = {
   title: "Project Nextjs 1",

@@ -6,11 +6,11 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "../ui/card";
-import { Badge } from "../ui/badge";
+} from "../../ui/card";
+import { Badge } from "../../ui/badge";
 import Link from "next/link";
-import { buttonVariants } from "../ui/button";
-import { Avatar, AvatarFallback } from "../ui/avatar";
+import { buttonVariants } from "../../ui/button";
+import { Avatar, AvatarFallback } from "../../ui/avatar";
 import { getInitials } from "@/hooks/user-initial";
 
 interface BlogCard {

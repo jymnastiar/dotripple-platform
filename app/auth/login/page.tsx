@@ -12,68 +12,18 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Controller, useForm } from "react-hook-form";
-import { loginSchema } from "@/app/schemas/auth";
+import { Controller } from "react-hook-form";
 import {
   Field,
   FieldError,
   FieldGroup,
   FieldLabel,
 } from "@/components/ui/field";
-import { authClient } from "@/lib/auth-client";
-import { z } from "zod";
-import { toast } from "sonner";
-import { useRouter } from "next/navigation";
-import { useTransition } from "react";
 import { Spinner } from "@/components/ui/spinner";
+import { useLogin } from "@/hooks/use-login";
 
 export default function LoginPage() {
-  const [ispending, startTransition] = useTransition();
-  const router = useRouter();
-  const form = useForm({
-    resolver: zodResolver(loginSchema),
-    defaultValues: {
-      account: "",
-      password: "",
-    },
-  });
-
-  function handleLoginButton(data: z.infer<typeof loginSchema>) {
-    startTransition(async () => {
-      const account = data.account.includes("@");
-
-      if (account) {
-        await authClient.signIn.email({
-          email: data.account,
-          password: data.password,
-          fetchOptions: {
-            onSuccess: () => {
-              toast.success("Logged in successfully");
-              router.push("/");
-            },
-            onError: (error) => {
-              toast.error(error.error.message);
-            },
-          },
-        });
-      } else {
-        await authClient.signIn.username({
-          username: data.account,
-          password: data.password,
-          fetchOptions: {
-            onSuccess: () => {
-              toast.success("Logged in successfully");
-              router.push("/");
-            },
-            onError: (error) => {
-              toast.error(error.error.message);
-            },
-          },
-        });
-      }
-    });
-  }
+  const { form, isPending, handleLogin } = useLogin();
 
   return (
     <section className="">
@@ -92,7 +42,7 @@ export default function LoginPage() {
           </CardAction>
         </CardHeader>
         <CardContent>
-          <form id="login-form" onSubmit={form.handleSubmit(handleLoginButton)}>
+          <form id="login-form" onSubmit={form.handleSubmit(handleLogin)}>
             <FieldGroup className="gap-y-4">
               <Controller
                 name={"account"}
@@ -142,12 +92,12 @@ export default function LoginPage() {
 
         <CardFooter className="flex-col gap-3">
           <Button
-            disabled={ispending}
+            disabled={isPending}
             type="submit"
             form="login-form"
             className="w-full cursor-pointer"
           >
-            {ispending ? (
+            {isPending ? (
               <>
                 <Spinner data-icon="inline-start" />
                 <span>Loading...</span>

@@ -8,14 +8,18 @@ export default defineSchema({
     body: v.string(),
     tags: v.array(v.string()),
     authorId: v.string(),
-    username: v.string(),
-    name: v.string(),
   }).index("by_authorId", ["authorId"]),
   users: defineTable({
     name: v.string(),
     username: v.string(),
     email: v.string(),
     betterAuthId: v.string(),
+    description: v.optional(v.string()),
+    profileImage: v.optional(v.string()),
+    twitterAccount: v.optional(v.string()),
+    instagramAccount: v.optional(v.string()),
+    githubAccount: v.optional(v.string()),
+    linkedinAccount: v.optional(v.string()),
   })
     .index("by_username", ["username"])
     .index("by_betterAuthId", ["betterAuthId"]),

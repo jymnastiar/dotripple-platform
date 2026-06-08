@@ -1,5 +1,5 @@
-import { Card, CardContent, CardHeader } from "../ui/card";
-import { Skeleton } from "../ui/skeleton";
+import { Card, CardContent, CardHeader } from "../../ui/card";
+import { Skeleton } from "../../ui/skeleton";
 
 export default function BlogCardLoading() {
   return Array.from({ length: 3 }).map((_, i) => (

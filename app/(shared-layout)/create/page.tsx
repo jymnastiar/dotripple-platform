@@ -42,7 +42,7 @@ export default function CreatePage() {
           Create Post
         </h1>
         <p className="text-xl text-muted-foreground pt-4">
-          Lorem ipsum dolor sit amet.
+          Share your ideas, insights, and stories with the community.
         </p>
       </div>
 
@@ -50,7 +50,7 @@ export default function CreatePage() {
         <CardHeader>
           <CardTitle>Create Blog Article</CardTitle>
           <CardDescription>
-            Lorem ipsum dolor sit amet consectetur.
+            Fill in the details below to publish your article.
           </CardDescription>
         </CardHeader>
         <CardContent className="mt-4">
@@ -76,7 +76,7 @@ export default function CreatePage() {
                     <FieldLabel>Post Title</FieldLabel>
                     <Input
                       aria-invalid={fieldState.invalid}
-                      placeholder="title here"
+                      placeholder="Title post here"
                       {...field}
                     />
                     {fieldState.error && (
@@ -94,7 +94,7 @@ export default function CreatePage() {
                     <FieldLabel>Content</FieldLabel>
                     <Textarea
                       aria-invalid={fieldState.invalid}
-                      placeholder="lorem ipsum dolor es sir"
+                      placeholder="Write your article content here..."
                       {...field}
                     />
                     {fieldState.error && (

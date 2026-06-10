@@ -8,8 +8,15 @@ import { ProfileTabs } from "@/components/web/profile/profile-tabs";
 import { ProfileUserContent } from "@/components/web/profile/profile-user-content";
 
 export default function ProfilePage() {
-  const { activeTab, setActiveTab, username, user, posts, isOwner } =
-    useProfile();
+  const {
+    activeTab,
+    setActiveTab,
+    username,
+    user,
+    posts,
+    isOwner,
+    userComments,
+  } = useProfile();
 
   if (user === undefined) return <ProfileSkeleton />;
   if (user === null) return <ProfileEmpty username={username} />;
@@ -44,6 +51,7 @@ export default function ProfilePage() {
             twitterAccount={user.twitterAccount}
             instagramAccount={user.instagramAccount}
             linkedinAccount={user.linkedinAccount}
+            joinedAt={user._creationTime}
           />
 
           <main className="flex-1 space-y-6 lg:space-y-8">
@@ -53,7 +61,11 @@ export default function ProfilePage() {
               isOwner={isOwner}
               username={user.username}
             />
-            <ProfileUserContent activeTab={activeTab} posts={posts} />
+            <ProfileUserContent
+              activeTab={activeTab}
+              posts={posts}
+              comments={userComments}
+            />
           </main>
         </section>
       </div>

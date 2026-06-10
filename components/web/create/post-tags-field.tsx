@@ -53,7 +53,7 @@ export function PostTagsField<T extends FieldValues>({
                     {values.map((value: string) => (
                       <ComboboxChip key={value}>{value}</ComboboxChip>
                     ))}
-                    <ComboboxChipsInput placeholder="select tags" />
+                    <ComboboxChipsInput placeholder="Select tags" />
                   </React.Fragment>
                 )}
               </ComboboxValue>

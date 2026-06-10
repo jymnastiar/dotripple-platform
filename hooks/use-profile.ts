@@ -4,7 +4,7 @@ import { useQuery } from "convex/react";
 import { useParams } from "next/navigation";
 import { useState } from "react";
 
-export const TABS = ["Blogs", "Projects", "Likes", "Bookmark"];
+export const TABS = ["Blogs", "Comments", "Likes", "Bookmark"];
 
 export function useProfile() {
   const [activeTab, setActiveTab] = useState("Blogs");
@@ -19,5 +19,18 @@ export function useProfile() {
   const { data: session } = authClient.useSession();
   const isOwner = session?.user?.id === user?.betterAuthId;
 
-  return { activeTab, setActiveTab, username, user, posts, isOwner };
+  const userComments = useQuery(
+    api.comment.getCommentByAuthorId,
+    user?.betterAuthId ? { authorId: user.betterAuthId } : "skip",
+  );
+
+  return {
+    activeTab,
+    setActiveTab,
+    username,
+    user,
+    posts,
+    isOwner,
+    userComments,
+  };
 }

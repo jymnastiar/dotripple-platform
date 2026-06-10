@@ -1,9 +1,14 @@
 "use client";
 
+import { Card } from "@/components/ui/card";
 import BlogCardLoading from "@/components/web/blog/blog-card-skeleton";
 import { UserBlogCard } from "@/components/web/profile/user-blog-card";
-import { CircleOff } from "lucide-react";
+import { dateFormat } from "@/hooks/date-format";
+import { CircleOff, ArrowRight, Calendar, FileText } from "lucide-react";
 import { motion } from "motion/react";
+import Link from "next/link";
+import BlogsTabs from "./tabs/blogs-tabs";
+import CommentsTabs from "./tabs/comments-tabs";
 
 interface Post {
   _id: string;
@@ -13,14 +18,24 @@ interface Post {
   body: string;
 }
 
+interface Comments {
+  _id: string;
+  text: string;
+  postId: string;
+  _creationTime: number;
+  title: string;
+}
+
 interface ProfileUserContentProps {
   activeTab: string;
   posts: Post[] | undefined;
+  comments: Comments[] | undefined;
 }
 
 export function ProfileUserContent({
   activeTab,
   posts,
+  comments,
 }: ProfileUserContentProps) {
   return (
     <motion.div
@@ -30,40 +45,12 @@ export function ProfileUserContent({
       transition={{ duration: 0.4, ease: "easeOut" }}
       className="space-y-6 lg:space-y-8"
     >
-      {activeTab === "Blogs" && (
-        <div className="grid gap-4 grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
-          {posts === undefined ? (
-            <BlogCardLoading />
-          ) : posts.length > 0 ? (
-            posts.map((blog) => (
-              <UserBlogCard
-                key={blog._id}
-                title={blog.title}
-                tags={blog.tags}
-                imageUrl={blog.imageUrl || ""}
-                body={blog.body}
-              />
-            ))
-          ) : (
-            <div className="col-span-full flex flex-col items-center justify-center py-16 lg:py-32 text-center space-y-6 rounded-3xl lg:rounded-[3rem] border-2 border-dashed border-border px-4">
-              <div className="size-20 lg:size-24 rounded-full bg-background flex items-center justify-center relative">
-                <CircleOff className="size-8 lg:size-10 text-primary/40" />
-              </div>
-              <div className="max-w-xs mx-auto">
-                <h3 className="text-lg lg:text-xl font-bold italic tracking-tight">
-                  No blogs yet
-                </h3>
-                <p className="text-xs lg:text-sm text-muted-foreground mt-2 leading-relaxed">
-                  This user hasn&apos;t published any blogs yet.
-                </p>
-              </div>
-            </div>
-          )}
-        </div>
-      )}
+      {activeTab === "Blogs" && <BlogsTabs posts={posts} />}
 
-      {activeTab !== "Blogs" && (
-        <div className="flex flex-col items-center justify-center py-16 lg:py-32 text-center space-y-6 rounded-3xl lg:rounded-[3rem] border-2 border-dashed border-border px-4">
+      {activeTab === "Comments" && <CommentsTabs comments={comments} />}
+
+      {activeTab !== "Blogs" && activeTab !== "Comments" && (
+        <section className="flex flex-col items-center justify-center py-16 lg:py-32 text-center space-y-6 rounded-3xl lg:rounded-[3rem] border-2 border-dashed border-border px-4">
           <div className="size-20 lg:size-24 rounded-full bg-background flex items-center justify-center relative">
             <CircleOff className="size-8 lg:size-10 text-primary/40" />
           </div>
@@ -75,7 +62,7 @@ export function ProfileUserContent({
               The {activeTab} section is currently under development.
             </p>
           </div>
-        </div>
+        </section>
       )}
     </motion.div>
   );

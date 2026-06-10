@@ -5,9 +5,13 @@ import BlogCardLoading from "@/components/web/blog/blog-card-skeleton";
 import { BlogEmpty } from "@/components/web/blog/blog-empty";
 import { api } from "@/convex/_generated/api";
 import { useQuery } from "convex/react";
+import { useParams } from "next/navigation";
 import { Suspense } from "react";
 
 export default function BlogPage() {
+  const params = useParams();
+  const post = params.postId as string;
+
   const blogs = useQuery(api.posts.getPosts);
   if (blogs !== undefined && blogs.length === 0) {
     return <BlogEmpty />;
@@ -32,6 +36,7 @@ export default function BlogPage() {
             blogs.map((blog) => (
               <BlogCard
                 key={blog._id}
+                _id={blog._id}
                 title={blog.title}
                 tags={blog.tags}
                 imageUrl={blog.imageUrl || ""}

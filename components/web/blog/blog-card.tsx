@@ -14,7 +14,7 @@ import { Avatar, AvatarFallback } from "../../ui/avatar";
 import { getInitials } from "@/hooks/user-initial";
 
 interface BlogCard {
-  _id?: string;
+  _id: string;
   title: string;
   body: string;
   tags: string[];

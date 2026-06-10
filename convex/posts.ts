@@ -1,6 +1,7 @@
 import { mutation, query } from "./_generated/server";
 import { ConvexError, v } from "convex/values";
 import { authComponent } from "./auth";
+import { Id } from "./_generated/dataModel";
 
 export const createTask = mutation({
   args: {
@@ -77,5 +78,26 @@ export const getPosts = query({
         };
       }),
     );
+  },
+});
+
+export const getPostsById = query({
+  args: { postId: v.string() },
+  handler: async (ctx, args) => {
+    const post = await ctx.db.get(args.postId as Id<"posts">);
+    if (!post) return null;
+    const imageUrl = post.image
+      ? await ctx.storage.getUrl(post.image)
+      : "/images/no-image-available.jpg";
+    const postAuthor = await ctx.db
+      .query("users")
+      .withIndex("by_betterAuthId", (q) => q.eq("betterAuthId", post.authorId))
+      .unique();
+    return {
+      ...post,
+      imageUrl,
+      username: postAuthor?.username ?? "unknown",
+      name: postAuthor?.name ?? "Unknown User",
+    };
   },
 });

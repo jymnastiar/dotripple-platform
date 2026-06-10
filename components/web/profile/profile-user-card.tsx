@@ -1,7 +1,14 @@
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+} from "@/components/ui/card";
 import { getInitials } from "@/hooks/user-initial";
 import { SocialDock } from "@/components/web/profile/social-link-dock";
+import { dateFormat } from "@/hooks/date-format";
+import { CalendarDays } from "lucide-react";
 
 interface ProfileUserCardProps {
   name: string;
@@ -12,6 +19,7 @@ interface ProfileUserCardProps {
   twitterAccount?: string | null;
   instagramAccount?: string | null;
   linkedinAccount?: string | null;
+  joinedAt: number;
 }
 
 export function ProfileUserCard({
@@ -23,6 +31,7 @@ export function ProfileUserCard({
   twitterAccount,
   instagramAccount,
   linkedinAccount,
+  joinedAt,
 }: ProfileUserCardProps) {
   return (
     <aside className="w-full lg:w-80 shrink-0 space-y-6">
@@ -50,8 +59,12 @@ export function ProfileUserCard({
               No bio yet.
             </p>
           )}
+          <div className="inline-flex items-center justify-center gap-1.5 mt-6 px-3 py-1.5 bg-secondary/40 text-secondary-foreground rounded-full text-xs font-medium border border-border/50 shadow-sm hover:bg-secondary/60 transition-colors">
+            <CalendarDays className="size-3.5 opacity-70" />
+            <span>Joined {dateFormat(joinedAt)}</span>
+          </div>
         </CardContent>
-        <CardFooter className="justify-center pb-6 pt-2">
+        <CardFooter className="justify-center pb-6">
           <SocialDock
             email={email}
             githubAccount={githubAccount}

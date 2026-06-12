@@ -9,10 +9,11 @@ import {
   CardTitle,
   CardDescription,
   CardFooter,
+  CardAction,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import { dateFormat } from "@/hooks/date-format";
 import { getInitials } from "@/hooks/user-initial";
 import { BlogEmpty } from "../blog/blog-empty";
@@ -35,7 +36,7 @@ export default function HomeRecentSection({
         </div>
         <Link
           href="/blog"
-          className={`${buttonVariants({ variant: "ghost", size: "sm" })}flex items-center gap-1`}
+          className={`${buttonVariants({ variant: "ghost", size: "sm" })}flex items-center gap-2 pr-0 hover:pr-2 transition-all`}
         >
           View All
           <ArrowRight className="size-4" />
@@ -61,11 +62,15 @@ export default function HomeRecentSection({
                 />
               </CardHeader>
 
-              <CardContent className="pt-6 flex-1 flex flex-col justify-between gap-4">
+              <CardContent className="pt-3 flex-1 flex flex-col justify-between gap-4">
                 <div className="flex flex-col gap-2">
-                  <Badge variant="secondary" className="w-fit">
-                    {post.tags[0]}
-                  </Badge>
+                  <CardAction className="flex gap-2 flex-wrap">
+                    {post.tags.slice(0, 8).map((item) => (
+                      <Badge key={item} variant="secondary" className="w-fit">
+                        {item}
+                      </Badge>
+                    ))}
+                  </CardAction>
                   <CardTitle className="text-lg font-bold tracking-tight line-clamp-2 hover:text-primary transition-colors cursor-pointer">
                     {post.title}
                   </CardTitle>
@@ -92,14 +97,12 @@ export default function HomeRecentSection({
                     </span>
                   </div>
                 </div>
-                <Button
-                  size="sm"
-                  variant="secondary"
-                  className="text-xs"
-                  asChild
+                <Link
+                  href={`/blog/${post._id}`}
+                  className={`${buttonVariants({ variant: "secondary", size: "sm" })} text-xs`}
                 >
-                  <Link href={`/blog/${post._id}`}>Read Post</Link>
-                </Button>
+                  Read Post
+                </Link>
               </CardFooter>
             </Card>
           ))

@@ -10,7 +10,7 @@ export default function Home() {
   const recentPost = useQuery(api.posts.getRecentPosts);
 
   return (
-    <div className="flex flex-col gap-24 py-12 md:py-20 w-full">
+    <div className="flex flex-col gap-24 pb-12 md:pb-20 w-full">
       <HomeHeroSection />
 
       {/* comingsoon feature */}

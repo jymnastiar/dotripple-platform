@@ -1,8 +1,9 @@
 import { Metadata } from "next";
 import { ConvexHttpClient } from "convex/browser";
 import { api } from "@/convex/_generated/api";
-import { Id } from "@/convex/_generated/dataModel";
-import BlogDetailPageClient from "./blog-detail-client";
+import BlogDetailPageClient from "../../../../components/web/postId/blog-detail-client";
+import { isAuthenticated } from "@/lib/auth-server";
+import { redirect } from "next/navigation";
 
 interface Props {
   params: Promise<{ postId: string }>;
@@ -22,9 +23,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       };
     }
 
-    const shortDescription = post.body.length > 150 
-      ? `${post.body.slice(0, 150)}...` 
-      : post.body;
+    const shortDescription =
+      post.body.length > 150 ? `${post.body.slice(0, 150)}...` : post.body;
 
     return {
       title: post.title,
@@ -46,5 +46,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function Page({ params }: Props) {
   const { postId } = await params;
+  const isLoggedin = await isAuthenticated();
+
+  if (!isLoggedin) {
+    return redirect("/auth/login");
+  }
   return <BlogDetailPageClient postId={postId} />;
 }

@@ -1,8 +1,6 @@
 import { CommentForm } from "./comment-form";
 import { CommentList } from "./comment-list";
 import { MessageSquare } from "lucide-react";
-import Link from "next/link";
-import { buttonVariants } from "@/components/ui/button";
 import { UseFormReturn } from "react-hook-form";
 import { z } from "zod";
 import { commentSchema } from "@/app/schemas/comment";
@@ -16,7 +14,6 @@ interface CommentItem {
 
 interface CommentSectionProps {
   comments: CommentItem[] | undefined;
-  isLoggedIn: boolean;
   userName?: string;
   form: UseFormReturn<z.infer<typeof commentSchema>>;
   onSubmit: (data: z.infer<typeof commentSchema>) => void;
@@ -25,7 +22,6 @@ interface CommentSectionProps {
 
 export function CommentSection({
   comments,
-  isLoggedIn,
   userName = "",
   form,
   onSubmit,
@@ -40,38 +36,12 @@ export function CommentSection({
         </h2>
       </div>
 
-      {isLoggedIn ? (
-        <CommentForm
-          form={form}
-          onSubmit={onSubmit}
-          isPending={isPending}
-          userName={userName}
-        />
-      ) : (
-        <div className="bg-muted/30 border border-border rounded-2xl py-12 sm:py-24 px-6 sm:px-14 text-center mb-12 flex flex-col items-center justify-center">
-          <h3 className="text-xl font-bold tracking-tight mb-3">
-            Join the conversation
-          </h3>
-          <p className="text-muted-foreground text-sm max-w-md mb-8 leading-relaxed">
-            You need to be logged in to leave a comment. Join our community to
-            share your thoughts!
-          </p>
-          <div className="flex flex-col sm:flex-row items-center gap-4">
-            <Link
-              href="/auth/login"
-              className={buttonVariants({ variant: "default" })}
-            >
-              Login
-            </Link>
-            <Link
-              href="/auth/sign-up"
-              className={buttonVariants({ variant: "outline" })}
-            >
-              Sign Up
-            </Link>
-          </div>
-        </div>
-      )}
+      <CommentForm
+        form={form}
+        onSubmit={onSubmit}
+        isPending={isPending}
+        userName={userName}
+      />
 
       <CommentList comments={comments} />
     </div>

@@ -11,7 +11,7 @@ import Link from "next/link";
 import { buttonVariants } from "../../ui/button";
 
 interface BlogCard {
-  _id?: string;
+  _id: string;
   title: string;
   body: string;
   tags: string[];

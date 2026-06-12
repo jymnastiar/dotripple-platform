@@ -1,36 +1,29 @@
 "use client";
 
-import { Id } from "@/convex/_generated/dataModel";
-import { PostIdSkeleton } from "@/components/web/postId/post-id-skeleton";
-import { PostIdEmpty } from "@/components/web/postId/post-id-empty";
 import { useBlogDetail } from "@/hooks/use-blog-detail";
 import { BlogPostContent } from "@/components/web/postId/blog-post-content";
 import { CommentSection } from "@/components/web/postId/comment-section";
+import { PostIdEmpty } from "./post-id-empty";
+import { PostIdSkeleton } from "./post-id-skeleton";
 
 interface BlogDetailPageClientProps {
   postId: string;
 }
 
-export default function BlogDetailPageClient({ postId }: BlogDetailPageClientProps) {
-  const {
-    post,
-    comments,
-    isLoggedIn,
-    getUser,
-    isPending,
-    form,
-    handlePostComment,
-  } = useBlogDetail(postId);
+export default function BlogDetailPageClient({
+  postId,
+}: BlogDetailPageClientProps) {
+  const { post, comments, getUser, isPending, form, handlePostComment } =
+    useBlogDetail(postId);
 
   if (post === undefined) return <PostIdSkeleton />;
-  if (!post) return <PostIdEmpty />;
+  if (post === null) return <PostIdEmpty />;
 
   return (
     <article className="py-12 max-w-5xl mx-auto">
-      <BlogPostContent post={post} />
+      <BlogPostContent post={post!} />
       <CommentSection
         comments={comments}
-        isLoggedIn={isLoggedIn}
         userName={getUser?.name}
         form={form}
         onSubmit={handlePostComment}

@@ -5,7 +5,6 @@ import { z } from "zod";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
-import { authClient } from "@/lib/auth-client";
 import { commentSchema } from "@/app/schemas/comment";
 
 export function useBlogDetail(postId: string) {
@@ -14,9 +13,6 @@ export function useBlogDetail(postId: string) {
   const getUser = useQuery(api.auth.getCurrentUser);
   const postComment = useMutation(api.comment.createComment);
   const [isPending, startTransition] = useTransition();
-
-  const { data: session } = authClient.useSession();
-  const isLoggedIn = !!session?.user;
 
   const form = useForm<z.infer<typeof commentSchema>>({
     resolver: zodResolver(commentSchema),
@@ -35,7 +31,6 @@ export function useBlogDetail(postId: string) {
   return {
     post,
     comments,
-    isLoggedIn,
     getUser,
     isPending,
     form,

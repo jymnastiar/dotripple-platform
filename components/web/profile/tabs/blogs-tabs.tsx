@@ -22,6 +22,7 @@ export default function BlogsTabs(posts: BlogsTabsProps) {
       ) : posts.posts.length > 0 ? (
         posts.posts.map((blog) => (
           <UserBlogCard
+            _id={blog._id}
             key={blog._id}
             title={blog.title}
             tags={blog.tags}

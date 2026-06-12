@@ -5,14 +5,14 @@ import { features } from "@/data/features";
 interface FeatureCardProps {
   title: string;
   description: string;
-  icon: React.ReactNode;
+  icon: React.ElementType;
   color: string;
 }
 
-function FeatureCard({ title, description, icon, color }: FeatureCardProps) {
+function FeatureCard({ title, description, icon: Icon, color }: FeatureCardProps) {
   return (
-    <div className="flex w-80 items-start gap-4 p-6 rounded-2xl border border-border bg-card/50 hover:bg-card/80 transition-all hover:scale-[1.02]">
-      <div className={`p-3 rounded-xl ${color}`}>{icon}</div>
+    <div className="flex w-60 sm:w-80 items-start gap-4 p-6 rounded-2xl border border-border bg-card/50 hover:bg-card/80 transition-all hover:scale-[1.02]">
+      <div className={`p-3 rounded-xl ${color}`}><Icon className="size-6" /></div>
       <div>
         <h3 className="font-semibold text-base text-foreground">{title}</h3>
         <p className="text-sm text-muted-foreground mt-1">{description}</p>
@@ -31,7 +31,7 @@ export default function MarqueeFeature() {
         </h2>
       </div>
       <div>
-        <Marquee pauseOnHover className="[--duration:40s]">
+        <Marquee pauseOnHover className="[--duration:30s] sm:[--duration:40s]">
           {features.map((review, idx) => (
             <FeatureCard
               key={`${review.title}-${idx}`}

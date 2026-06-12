@@ -1,22 +1,23 @@
 import { Button } from "@/components/ui/button";
 import { Meteors } from "@/components/ui/meteors";
+import { TypingAnimation } from "@/components/ui/typing-animation";
 import { ArrowRight, Sparkles } from "lucide-react";
 import Link from "next/link";
 
 export default function HomeHeroSection() {
   return (
-    <section className="relative w-full rounded-3xl bg-background/40 dark:bg-card/20 py-20 md:py-28 px-6 md:px-12 text-center flex flex-col items-center justify-center overflow-hidden">
+    <section className="relative w-full py-20 px-6 md:px-12 text-center flex flex-col items-center justify-center overflow-hidden">
       <Meteors />
 
       <div className="relative z-10 max-w-4xl mx-auto flex flex-col items-center gap-6">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary/20 bg-primary/5 text-primary text-xs font-semibold animate-pulse">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary/20 dark:border-primary/40 bg-primary/5 dark:bg-primary/20 text-primary text-xs font-semibold animate-pulse">
           <Sparkles className="size-3" />
-          <span>Discover the Ripple Effect</span>
+          <span>Discover the DotRipple</span>
         </div>
 
-        <h1 className="text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight leading-tight select-none">
+        <h1 className="text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight leading-tight">
           Unleash Your Thoughts. <br />
-          Join the Dot<span className="text-primary">Ripple</span>.
+          <TypingAnimation highlightText="Ripple" highlightClassName="text-primary">Join the DotRipple.</TypingAnimation>
         </h1>
 
         <p className="text-base sm:text-xl text-muted-foreground max-w-2xl leading-relaxed">

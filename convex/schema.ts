@@ -24,7 +24,7 @@ export default defineSchema({
     .index("by_username", ["username"])
     .index("by_betterAuthId", ["betterAuthId"]),
   comment: defineTable({
-    postId: v.string(),
+    postId: v.id("posts"),
     authorId: v.string(),
     text: v.string(),
   })

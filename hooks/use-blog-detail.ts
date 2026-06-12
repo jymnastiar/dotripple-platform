@@ -8,7 +8,7 @@ import { Id } from "@/convex/_generated/dataModel";
 import { authClient } from "@/lib/auth-client";
 import { commentSchema } from "@/app/schemas/comment";
 
-export function useBlogDetail(postId: Id<"posts">) {
+export function useBlogDetail(postId: string) {
   const post = useQuery(api.posts.getPostsById, { postId });
   const comments = useQuery(api.comment.getComment, { postId });
   const getUser = useQuery(api.auth.getCurrentUser);
@@ -27,7 +27,7 @@ export function useBlogDetail(postId: Id<"posts">) {
 
   function handlePostComment(data: z.infer<typeof commentSchema>) {
     startTransition(async () => {
-      await postComment({ postId, text: data.text });
+      await postComment({ postId: postId as Id<"posts">, text: data.text });
       form.reset();
     });
   }

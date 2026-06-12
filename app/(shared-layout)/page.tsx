@@ -1,17 +1,22 @@
-import { Meteors } from "@/components/ui/meteors";
+"use client";
+
+import { useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import MarqueeFeature from "@/components/web/home/marquee-feature";
+import HomeHeroSection from "@/components/web/home/hero";
+import HomeRecentSection from "@/components/web/home/recent";
 
 export default function Home() {
+  const recentPost = useQuery(api.posts.getRecentPosts);
+
   return (
-    <>
-      <div className="relative flex h-125 w-full flex-col items-center justify-center overflow-hidden">
-        <Meteors number={30} />
-        <span className="pointer-events-none bg-linear-to-b from-black to-gray-300/80 bg-clip-text text-center text-7xl leading-none font-semibold whitespace-pre-wrap text-transparent dark:from-white dark:to-slate-900/10 sm:text-8xl">
-          Next
-          <span className="bg-linear-to-b from-primary to-gray-300/80 bg-clip-text dark:from-primary dark:to-slate-900/10 whitespace-pre-wrap text-transparent">
-            Pro
-          </span>
-        </span>
-      </div>
-    </>
+    <div className="flex flex-col gap-24 py-12 md:py-20 w-full">
+      <HomeHeroSection />
+
+      {/* comingsoon feature */}
+      {/* <HomeSpotlightSection /> */}
+      <HomeRecentSection recentPost={recentPost} />
+      <MarqueeFeature />
+    </div>
   );
 }

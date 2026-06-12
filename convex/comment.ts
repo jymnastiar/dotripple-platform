@@ -30,11 +30,13 @@ export const createComment = mutation({
 });
 
 export const getComment = query({
-  args: { postId: v.id("posts") },
+  args: { postId: v.string() },
   handler: async (ctx, args) => {
+    const postId = ctx.db.normalizeId("posts", args.postId);
+    if (!postId) return [];
     const comments = await ctx.db
       .query("comment")
-      .withIndex("by_postId", (q) => q.eq("postId", args.postId))
+      .withIndex("by_postId", (q) => q.eq("postId", postId))
       .order("desc")
       .collect();
     return Promise.all(

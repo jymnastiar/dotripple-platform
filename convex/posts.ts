@@ -1,7 +1,6 @@
 import { mutation, query } from "./_generated/server";
 import { ConvexError, v } from "convex/values";
 import { authComponent } from "./auth";
-import { Id } from "./_generated/dataModel";
 
 export const createTask = mutation({
   args: {
@@ -84,7 +83,9 @@ export const getPosts = query({
 export const getPostsById = query({
   args: { postId: v.string() },
   handler: async (ctx, args) => {
-    const post = await ctx.db.get(args.postId as Id<"posts">);
+    const postId = ctx.db.normalizeId("posts", args.postId);
+    if (!postId) return null;
+    const post = await ctx.db.get(postId);
     if (!post) return null;
     const imageUrl = post.image
       ? await ctx.storage.getUrl(post.image)
@@ -99,5 +100,30 @@ export const getPostsById = query({
       username: postAuthor?.username ?? "unknown",
       name: postAuthor?.name ?? "Unknown User",
     };
+  },
+});
+
+export const getRecentPosts = query({
+  args: {},
+  handler: async (ctx) => {
+    const posts = await ctx.db.query("posts").order("desc").take(3);
+    return Promise.all(
+      posts.map(async (post) => {
+        const user = await ctx.db
+          .query("users")
+          .withIndex("by_betterAuthId", (q) =>
+            q.eq("betterAuthId", post.authorId),
+          )
+          .unique();
+
+        return {
+          ...post,
+          imageUrl: post.image
+            ? await ctx.storage.getUrl(post.image)
+            : "/images/no-image-available.jpg",
+          name: user?.name ?? "Unknown User",
+        };
+      }),
+    );
   },
 });

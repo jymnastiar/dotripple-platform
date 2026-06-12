@@ -9,8 +9,12 @@ import { Toaster } from "@/components/ui/sonner";
 const dmSans = DM_Sans({ subsets: ["latin"], variable: "--font-sans" });
 
 export const metadata: Metadata = {
-  title: "Project Nextjs 1",
-  description: "This is my nextjs leason",
+  title: {
+    template: "%s | DotRipple",
+    default: "DotRipple - A Modern Blogging Platform",
+  },
+  description: "A modern blogging platform for sharing thoughts, articles, and insights.",
+  authors: [{ name: "Jymnastiar" }],
 };
 
 export default function RootLayout({

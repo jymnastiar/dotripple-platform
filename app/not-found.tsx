@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
+import DotRippleIcon from "@/src/logo/dot-ripple-icon";
 
 export default function NotFoundPage() {
   const router = useRouter();
@@ -18,12 +19,9 @@ export default function NotFoundPage() {
   return (
     <section className="relative w-full h-screen flex flex-col items-center justify-center overflow-hidden">
       <div className="relative z-10 flex flex-col items-center justify-center text-center px-6 gap-6">
-        <span className="pointer-events-none bg-linear-to-b from-black to-gray-300/80 bg-clip-text text-[10rem] leading-none font-semibold text-transparent dark:from-white dark:to-slate-900/10 sm:text-[14rem] select-none">
+        <span className="pointer-events-none gap-2 flex items-center justify-center bg-linear-to-b from-black to-gray-300/80 bg-clip-text text-[6rem] leading-none font-semibold text-transparent dark:from-white dark:to-slate-900/10 sm:text-[10rem] lg:text-[14rem] select-none">
           4
-          <span className="bg-linear-to-b from-primary to-gray-300/80 bg-clip-text dark:from-primary dark:to-slate-900/10 text-transparent">
-            0
-          </span>
-          4
+          <DotRippleIcon className="w-[0.7em] h-[0.7em]" />4
         </span>
 
         <h1 className="text-3xl font-extrabold tracking-tight sm:text-4xl -mt-6">

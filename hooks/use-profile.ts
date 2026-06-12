@@ -1,15 +1,12 @@
 import { api } from "@/convex/_generated/api";
 import { authClient } from "@/lib/auth-client";
 import { useQuery } from "convex/react";
-import { useParams } from "next/navigation";
 import { useState } from "react";
 
 export const TABS = ["Blogs", "Comments", "Likes", "Bookmark"];
 
-export function useProfile() {
+export function useProfile(username: string) {
   const [activeTab, setActiveTab] = useState("Blogs");
-  const params = useParams();
-  const username = params.username as string;
 
   const user = useQuery(api.users.getUserByUsername, { username });
   const posts = useQuery(

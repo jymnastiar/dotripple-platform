@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { Button, buttonVariants } from "../ui/button";
 import { Spinner } from "../ui/spinner";
 import {
@@ -47,10 +48,14 @@ export function Navbar() {
     <nav className="sticky top-0 w-full bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60 border-b border-border z-50">
       <div className="max-w-7xl mx-auto flex items-center justify-between py-4 px-4 md:px-8">
         <div className="flex items-center">
-          <Link href="/">
-            <h1 className="text-3xl font-bold">
-              Next<span className="text-primary">Pro</span>
-            </h1>
+          <Link href="/" className="flex items-center gap-2">
+            <Image
+              src="/dot-ripple-logo.png"
+              alt="DotRipple Logo"
+              width={1000}
+              height={1000}
+              className="w-40 h-auto object-contain"
+            />
           </Link>
         </div>
 
@@ -118,7 +123,7 @@ export function Navbar() {
                           <AlertDialogDescription>
                             You will be securely signed out of{" "}
                             <span className="font-extrabold text-foreground">
-                              Next<span className="text-primary">Pro</span>
+                              Dot<span className="text-primary">Ripple</span>
                             </span>
                             . You will need to enter your credentials to access
                             your dashboard again

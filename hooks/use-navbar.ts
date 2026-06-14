@@ -4,6 +4,7 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { api } from "@/convex/_generated/api";
+import React from "react";
 
 export function UseNavbar() {
   const { isAuthenticated, isLoading } = useConvexAuth();
@@ -13,6 +14,8 @@ export function UseNavbar() {
   const userName = getUser?.name;
   const userEmail = getUser?.email;
   const user = getUser?.username;
+  const [open, setOpen] = React.useState(false);
+  const recentPost = useQuery(api.posts.getRecentPosts);
 
   const handleLogout = () => {
     authClient.signOut({
@@ -40,5 +43,8 @@ export function UseNavbar() {
     user,
     handleLogout,
     getUser,
+    open,
+    setOpen,
+    recentPost,
   };
 }

@@ -12,8 +12,9 @@ import Link from "next/link";
 import { buttonVariants } from "../../ui/button";
 import { Avatar, AvatarFallback } from "../../ui/avatar";
 import { getInitials } from "@/hooks/user-initial";
+import { dateFormat } from "@/hooks/date-format";
 
-interface BlogCard {
+interface BlogCardProps {
   _id: string;
   title: string;
   body: string;
@@ -21,40 +22,74 @@ interface BlogCard {
   imageUrl?: string | null;
   username: string;
   name: string;
+  _creationTime?: number;
 }
 
-export function BlogCard(blogs: BlogCard) {
+export function BlogCard({
+  _id,
+  title,
+  body,
+  tags,
+  imageUrl,
+  username,
+  name,
+  _creationTime,
+}: BlogCardProps) {
   return (
-    <Card key={blogs._id} className="mx-auto w-full max-w-sm">
-      <img
-        src={blogs.imageUrl || "/images/no-image-available.jpg"}
-        alt="Event cover"
-        className="relative z-20 aspect-video w-full object-cover brightness-80 dark:brightness-60"
-      />
-      <CardHeader className="h-20">
-        <CardAction>
-          <Badge variant="secondary">{blogs.tags[0]}</Badge>
-        </CardAction>
-        <CardTitle className="truncate">{blogs.title}</CardTitle>
-        <CardDescription className="line-clamp-2">{blogs.body}</CardDescription>
+    <Card className="flex flex-col py-0 justify-between overflow-hidden border border-border bg-card/40 hover:bg-card/80 transition-all hover:scale-[1.01] w-full mx-auto shadow-xs">
+      <CardHeader className="p-0">
+        <img
+          src={imageUrl || "/images/no-image-available.jpg"}
+          alt={title}
+          className="relative z-20 aspect-video w-full object-cover brightness-80 dark:brightness-60"
+        />
       </CardHeader>
-      <CardContent className="flex items-center gap-3">
-        <Avatar className="size-8">
-          <AvatarFallback>{getInitials(blogs.name)}</AvatarFallback>
-        </Avatar>
-        <div className="flex flex-col overflow-hidden">
-          <span className="text-sm font-semibold truncate">{blogs.name}</span>
-          <span className="text-xs text-muted-foreground truncate">
-            {blogs.username}
-          </span>
+
+      <CardContent className="pt-3 flex-1 flex flex-col justify-between gap-4">
+        <div className="flex flex-col gap-2">
+          <CardAction className="flex gap-2 flex-wrap">
+            {tags?.slice(0, 3).map((item) => (
+              <Badge key={item} variant="secondary" className="w-fit">
+                {item}
+              </Badge>
+            ))}
+          </CardAction>
+          <CardTitle className="text-lg font-bold tracking-tight line-clamp-2 hover:text-primary transition-colors cursor-pointer">
+            <Link href={`/blog/${_id}`}>{title}</Link>
+          </CardTitle>
+          <CardDescription className="text-sm text-muted-foreground line-clamp-3 leading-relaxed">
+            {body}
+          </CardDescription>
         </div>
+
+        {_creationTime && (
+          <div className="flex items-center justify-between text-xs text-muted-foreground pt-3 border-t border-border/40">
+            <span>{dateFormat(_creationTime)}</span>
+          </div>
+        )}
       </CardContent>
-      <CardFooter>
+
+      <CardFooter className="pb-6 pt-0 flex items-center justify-between gap-4">
+        <div className="flex items-center gap-2 overflow-hidden">
+          <Avatar className="size-8 border border-border">
+            <AvatarFallback className="bg-primary text-primary-foreground font-bold text-xs">
+              {getInitials(name)}
+            </AvatarFallback>
+          </Avatar>
+          <div className="flex flex-col overflow-hidden max-w-[140px]">
+            <span className="text-xs font-semibold text-foreground truncate">
+              {name}
+            </span>
+            <span className="text-[10px] text-muted-foreground truncate">
+              @{username}
+            </span>
+          </div>
+        </div>
         <Link
-          className={`w-full cursor-pointer${buttonVariants()}`}
-          href={`/blog/${blogs._id}`}
+          href={`/blog/${_id}`}
+          className={`${buttonVariants({ variant: "secondary", size: "sm" })} text-xs shrink-0`}
         >
-          View Blog
+          Read Post
         </Link>
       </CardFooter>
     </Card>

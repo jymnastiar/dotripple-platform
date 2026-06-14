@@ -61,14 +61,23 @@ export const getPosts = query({
   args: {},
   handler: async (ctx) => {
     const posts = await ctx.db.query("posts").order("desc").collect();
+    const uniqueAuthorIds = Array.from(new Set(posts.map((p) => p.authorId)));
+
+    const usersArray = await Promise.all(
+      uniqueAuthorIds.map(async (authorId) => {
+        const user = await ctx.db
+          .query("users")
+          .withIndex("by_betterAuthId", (q) => q.eq("betterAuthId", authorId))
+          .unique();
+        return { authorId, user };
+      }),
+    );
+
+    const userMap = new Map(usersArray.map((u) => [u.authorId, u.user]));
+
     return Promise.all(
       posts.map(async (post) => {
-        const author = await ctx.db
-          .query("users")
-          .withIndex("by_betterAuthId", (q) =>
-            q.eq("betterAuthId", post.authorId),
-          )
-          .unique();
+        const author = userMap.get(post.authorId);
         return {
           ...post,
           imageUrl: post.image ? await ctx.storage.getUrl(post.image) : null,
@@ -122,6 +131,42 @@ export const getRecentPosts = query({
             ? await ctx.storage.getUrl(post.image)
             : "/images/no-image-available.jpg",
           name: user?.name ?? "Unknown User",
+        };
+      }),
+    );
+  },
+});
+
+export const searchPosts = query({
+  args: { title: v.string() },
+  handler: async (ctx, args) => {
+    const posts = await ctx.db
+      .query("posts")
+      .withSearchIndex("search_title", (q) => q.search("title", args.title))
+      .collect();
+
+    const uniqueAuthorIds = Array.from(new Set(posts.map((p) => p.authorId)));
+
+    const usersArray = await Promise.all(
+      uniqueAuthorIds.map(async (authorId) => {
+        const user = await ctx.db
+          .query("users")
+          .withIndex("by_betterAuthId", (q) => q.eq("betterAuthId", authorId))
+          .unique();
+        return { authorId, user };
+      }),
+    );
+
+    const userMap = new Map(usersArray.map((u) => [u.authorId, u.user]));
+
+    return Promise.all(
+      posts.map(async (post) => {
+        const author = userMap.get(post.authorId);
+        return {
+          ...post,
+          imageUrl: post.image ? await ctx.storage.getUrl(post.image) : null,
+          username: author?.username ?? "unknown",
+          name: author?.name ?? "Unknown User",
         };
       }),
     );

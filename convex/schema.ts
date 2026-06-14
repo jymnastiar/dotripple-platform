@@ -8,7 +8,11 @@ export default defineSchema({
     body: v.string(),
     tags: v.array(v.string()),
     authorId: v.string(),
-  }).index("by_authorId", ["authorId"]),
+  })
+    .index("by_authorId", ["authorId"])
+    .searchIndex("search_title", {
+      searchField: "title",
+    }),
   users: defineTable({
     name: v.string(),
     username: v.string(),

@@ -13,7 +13,8 @@ export const metadata: Metadata = {
     template: "%s | DotRipple",
     default: "DotRipple - A Modern Blogging Platform",
   },
-  description: "A modern blogging platform for sharing thoughts, articles, and insights.",
+  description:
+    "A modern blogging platform for sharing thoughts, articles, and insights.",
   authors: [{ name: "Jymnastiar" }],
 };
 

@@ -42,6 +42,9 @@ export function Navbar() {
     user,
     handleLogout,
     getUser,
+    open,
+    setOpen,
+    recentPost,
   } = UseNavbar();
 
   return (
@@ -75,7 +78,7 @@ export function Navbar() {
             </Link>
           </div>
 
-          <div className="flex items-center gap-4">
+          <div className="flex w-full justify-end items-center gap-4">
             <AnimatedThemeToggler />
             {isLoading ? (
               <Button disabled>

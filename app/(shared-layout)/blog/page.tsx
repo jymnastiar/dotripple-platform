@@ -1,33 +1,15 @@
 "use client";
 
 import BlogCardLoading from "@/components/web/blog/blog-card-skeleton";
-import { Suspense, useEffect, useState } from "react";
-import BlogsSearch from "../../../components/web/blog/blog-search-btn";
-import AllBlogs from "../../../components/web/blog/all-blogs";
-import { useDebounce } from "use-debounce";
+import { Suspense } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Search, X, BookOpen } from "lucide-react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useBlogSearch } from "@/hooks/use-blog-search";
+import BlogLogic from "@/components/web/blog/blog-logic";
 
 export default function BlogPage() {
-  const searchParam = useSearchParams();
-  const router = useRouter();
-  const pathname = usePathname();
-
-  const [searchBlog, setSearchBlog] = useState<string>(
-    searchParam.get("q") ?? "",
-  );
-  const [debounceTitle] = useDebounce(searchBlog, 500);
-
-  useEffect(() => {
-    const params = new URLSearchParams();
-    if (debounceTitle) {
-      params.set("q", debounceTitle);
-    }
-    const query = params.toString();
-    router.replace(query ? `${pathname}?${query}` : pathname);
-  }, [debounceTitle, pathname, router]);
+  const { searchBlog, setSearchBlog, debounceTitle } = useBlogSearch();
 
   return (
     <section className="py-12 md:py-16 flex flex-col gap-12 w-full">
@@ -71,7 +53,7 @@ export default function BlogPage() {
         </div>
       </div>
 
-      <div className="w-full">
+      <div className="w-full flex flex-col gap-8">
         <Suspense
           fallback={
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -79,11 +61,7 @@ export default function BlogPage() {
             </div>
           }
         >
-          {debounceTitle.length > 0 ? (
-            <BlogsSearch searchTitle={debounceTitle} />
-          ) : (
-            <AllBlogs />
-          )}
+          <BlogLogic debounceTitle={debounceTitle} />
         </Suspense>
       </div>
     </section>

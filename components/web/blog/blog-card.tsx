@@ -9,6 +9,7 @@ import {
 } from "../../ui/card";
 import { Badge } from "../../ui/badge";
 import Link from "next/link";
+import Image from "next/image";
 import { buttonVariants } from "../../ui/button";
 import { Avatar, AvatarFallback } from "../../ui/avatar";
 import { getInitials } from "@/hooks/user-initial";
@@ -38,11 +39,16 @@ export function BlogCard({
   return (
     <Card className="flex flex-col py-0 justify-between overflow-hidden border border-border bg-card/40 hover:bg-card/80 transition-all hover:scale-[1.01] w-full mx-auto shadow-xs">
       <CardHeader className="p-0">
-        <img
-          src={imageUrl || "/images/no-image-available.jpg"}
-          alt={title}
-          className="relative z-20 aspect-video w-full object-cover brightness-80 dark:brightness-60"
-        />
+        <div className="relative aspect-video w-full overflow-hidden">
+          <Image
+            src={imageUrl || "/images/no-image-available.jpg"}
+            alt={title}
+            fill
+            className="object-cover brightness-80 dark:brightness-60"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            unoptimized={!!imageUrl} // Skip server-side proxy for external Convex URLs
+          />
+        </div>
       </CardHeader>
 
       <CardContent className="pt-3 flex-1 flex flex-col justify-between gap-4">

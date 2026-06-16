@@ -13,8 +13,16 @@ interface BlogDetailPageClientProps {
 export default function BlogDetailPageClient({
   postId,
 }: BlogDetailPageClientProps) {
-  const { post, comments, getUser, isPending, form, handlePostComment } =
-    useBlogDetail(postId);
+  const {
+    post,
+    results,
+    status,
+    loadMore,
+    getUser,
+    isPending,
+    form,
+    handlePostComment,
+  } = useBlogDetail(postId);
 
   if (post === undefined) return <PostIdSkeleton />;
   if (post === null) return <PostIdEmpty />;
@@ -23,7 +31,9 @@ export default function BlogDetailPageClient({
     <article className="py-12 max-w-5xl mx-auto">
       <BlogPostContent post={post!} />
       <CommentSection
-        comments={comments}
+        status={status}
+        loadMore={loadMore}
+        comments={results}
         userName={getUser?.name}
         form={form}
         onSubmit={handlePostComment}

@@ -1,6 +1,7 @@
 import { mutation, query } from "./_generated/server";
 import { ConvexError, v } from "convex/values";
 import { authComponent } from "./auth";
+import { paginationOptsValidator } from "convex/server";
 
 export const createTask = mutation({
   args: {
@@ -29,20 +30,25 @@ export const createTask = mutation({
 });
 
 export const getPostsByAuthor = query({
-  args: { authorId: v.string() },
+  args: { authorId: v.string(), paginationOpts: paginationOptsValidator },
   handler: async (ctx, args) => {
-    const posts = await ctx.db
+    const results = await ctx.db
       .query("posts")
       .withIndex("by_authorId", (q) => q.eq("authorId", args.authorId))
       .order("desc")
-      .collect();
+      .paginate(args.paginationOpts);
 
-    return Promise.all(
-      posts.map(async (post) => ({
+    const enrichedPage = await Promise.all(
+      results.page.map(async (post) => ({
         ...post,
         imageUrl: post.image ? await ctx.storage.getUrl(post.image) : null,
       })),
     );
+
+    return {
+      ...results,
+      page: enrichedPage,
+    };
   },
 });
 
@@ -58,10 +64,16 @@ export const generateUploadUrl = mutation({
 });
 
 export const getPosts = query({
-  args: {},
-  handler: async (ctx) => {
-    const posts = await ctx.db.query("posts").order("desc").collect();
-    const uniqueAuthorIds = Array.from(new Set(posts.map((p) => p.authorId)));
+  args: { paginationOpts: paginationOptsValidator },
+  handler: async (ctx, args) => {
+    const result = await ctx.db
+      .query("posts")
+      .order("desc")
+      .paginate(args.paginationOpts);
+
+    const uniqueAuthorIds = Array.from(
+      new Set(result.page.map((p) => p.authorId)),
+    );
 
     const usersArray = await Promise.all(
       uniqueAuthorIds.map(async (authorId) => {
@@ -75,8 +87,8 @@ export const getPosts = query({
 
     const userMap = new Map(usersArray.map((u) => [u.authorId, u.user]));
 
-    return Promise.all(
-      posts.map(async (post) => {
+    const enrichedPage = await Promise.all(
+      result.page.map(async (post) => {
         const author = userMap.get(post.authorId);
         return {
           ...post,
@@ -86,6 +98,11 @@ export const getPosts = query({
         };
       }),
     );
+
+    return {
+      ...result,
+      page: enrichedPage,
+    };
   },
 });
 
@@ -138,14 +155,16 @@ export const getRecentPosts = query({
 });
 
 export const searchPosts = query({
-  args: { title: v.string() },
+  args: { title: v.string(), paginationOpts: paginationOptsValidator },
   handler: async (ctx, args) => {
-    const posts = await ctx.db
+    const result = await ctx.db
       .query("posts")
       .withSearchIndex("search_title", (q) => q.search("title", args.title))
-      .collect();
+      .paginate(args.paginationOpts);
 
-    const uniqueAuthorIds = Array.from(new Set(posts.map((p) => p.authorId)));
+    const uniqueAuthorIds = Array.from(
+      new Set(result.page.map((p) => p.authorId)),
+    );
 
     const usersArray = await Promise.all(
       uniqueAuthorIds.map(async (authorId) => {
@@ -159,8 +178,8 @@ export const searchPosts = query({
 
     const userMap = new Map(usersArray.map((u) => [u.authorId, u.user]));
 
-    return Promise.all(
-      posts.map(async (post) => {
+    const enrichedPage = await Promise.all(
+      result.page.map(async (post) => {
         const author = userMap.get(post.authorId);
         return {
           ...post,
@@ -170,5 +189,10 @@ export const searchPosts = query({
         };
       }),
     );
+
+    return {
+      ...result,
+      page: enrichedPage,
+    };
   },
 });

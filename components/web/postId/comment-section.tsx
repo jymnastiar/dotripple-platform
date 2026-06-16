@@ -14,6 +14,8 @@ interface CommentItem {
 
 interface CommentSectionProps {
   comments: CommentItem[] | undefined;
+  status: string;
+  loadMore: (numItems: number) => void;
   userName?: string;
   form: UseFormReturn<z.infer<typeof commentSchema>>;
   onSubmit: (data: z.infer<typeof commentSchema>) => void;
@@ -26,6 +28,8 @@ export function CommentSection({
   form,
   onSubmit,
   isPending,
+  status,
+  loadMore,
 }: CommentSectionProps) {
   return (
     <div className="w-full mx-auto px-4 mt-12">
@@ -43,7 +47,7 @@ export function CommentSection({
         userName={userName}
       />
 
-      <CommentList comments={comments} />
+      <CommentList status={status} loadMore={loadMore} comments={comments} />
     </div>
   );
 }

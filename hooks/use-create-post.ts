@@ -42,6 +42,17 @@ export function useCreatePost() {
         setPreview(null);
         return;
       }
+
+      const max_size_mb = 5;
+      const max_size_bytes = max_size_mb * 1024 * 1024;
+      if (file.size > max_size_bytes) {
+        toast.error(`Image size must be under ${max_size_mb}MB`);
+        e.target.value = "";
+        setSelectedFile(null);
+        setPreview(null);
+        return;
+      }
+
       setSelectedFile(file);
       setPreview(URL.createObjectURL(file));
     } else {

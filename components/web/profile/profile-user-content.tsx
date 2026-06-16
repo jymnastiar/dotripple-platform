@@ -1,12 +1,5 @@
-"use client";
-
-import { Card } from "@/components/ui/card";
-import BlogCardLoading from "@/components/web/blog/blog-card-skeleton";
-import { UserBlogCard } from "@/components/web/profile/user-blog-card";
-import { dateFormat } from "@/hooks/date-format";
-import { CircleOff, ArrowRight, Calendar, FileText } from "lucide-react";
+import { CircleOff } from "lucide-react";
 import { motion } from "motion/react";
-import Link from "next/link";
 import BlogsTabs from "./tabs/blogs-tabs";
 import CommentsTabs from "./tabs/comments-tabs";
 
@@ -28,14 +21,22 @@ interface Comments {
 
 interface ProfileUserContentProps {
   activeTab: string;
-  posts: Post[] | undefined;
-  comments: Comments[] | undefined;
+  posts: Post[];
+  status: string;
+  loadMore: (numItems: number) => void;
+  statusComments: string;
+  loadmoreComments: (numItems: number) => void;
+  comments: Comments[];
 }
 
 export function ProfileUserContent({
   activeTab,
   posts,
+  status,
+  loadMore,
   comments,
+  statusComments,
+  loadmoreComments,
 }: ProfileUserContentProps) {
   return (
     <motion.div
@@ -45,9 +46,17 @@ export function ProfileUserContent({
       transition={{ duration: 0.4, ease: "easeOut" }}
       className="space-y-6 lg:space-y-8"
     >
-      {activeTab === "Blogs" && <BlogsTabs posts={posts} />}
+      {activeTab === "Blogs" && (
+        <BlogsTabs posts={posts} status={status} loadMore={loadMore} />
+      )}
 
-      {activeTab === "Comments" && <CommentsTabs comments={comments} />}
+      {activeTab === "Comments" && (
+        <CommentsTabs
+          comments={comments}
+          loadmoreComments={loadmoreComments}
+          statusComments={statusComments}
+        />
+      )}
 
       {activeTab !== "Blogs" && activeTab !== "Comments" && (
         <section className="flex flex-col items-center justify-center py-16 lg:py-32 text-center space-y-6 rounded-3xl lg:rounded-[3rem] border-2 border-dashed border-border px-4">

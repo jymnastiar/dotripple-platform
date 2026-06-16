@@ -16,9 +16,13 @@ export function ProfileClient({ username }: ProfileClientProps) {
     activeTab,
     setActiveTab,
     user,
-    posts,
+    results,
+    status,
+    loadMore,
     isOwner,
-    userComments,
+    resultsComments,
+    statusComments,
+    loadmoreComments,
   } = useProfile(username);
 
   if (user === undefined) return <ProfileSkeleton />;
@@ -66,8 +70,12 @@ export function ProfileClient({ username }: ProfileClientProps) {
             />
             <ProfileUserContent
               activeTab={activeTab}
-              posts={posts}
-              comments={userComments}
+              posts={results}
+              status={status}
+              loadMore={loadMore}
+              comments={resultsComments}
+              statusComments={statusComments}
+              loadmoreComments={loadmoreComments}
             />
           </main>
         </section>

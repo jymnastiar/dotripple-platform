@@ -2,6 +2,7 @@ import { ConvexError, v } from "convex/values";
 import { mutation, query } from "./_generated/server";
 import { authComponent } from "./auth";
 import { Id } from "./_generated/dataModel";
+import { paginationOptsValidator } from "convex/server";
 
 export const createComment = mutation({
   args: {
@@ -30,17 +31,18 @@ export const createComment = mutation({
 });
 
 export const getComment = query({
-  args: { postId: v.string() },
+  args: { postId: v.string(), paginationOpts: paginationOptsValidator },
   handler: async (ctx, args) => {
     const postId = ctx.db.normalizeId("posts", args.postId);
-    if (!postId) return [];
+    if (!postId) return { page: [], isDone: true, continueCursor: "" };
     const comments = await ctx.db
       .query("comment")
       .withIndex("by_postId", (q) => q.eq("postId", postId))
       .order("desc")
-      .collect();
-    return Promise.all(
-      comments.map(async (comment) => {
+      .paginate(args.paginationOpts);
+
+    const enrichedComments = await Promise.all(
+      comments.page.map(async (comment) => {
         const author = await ctx.db
           .query("users")
           .withIndex("by_betterAuthId", (q) =>
@@ -53,19 +55,25 @@ export const getComment = query({
         };
       }),
     );
+
+    return {
+      ...comments,
+      page: enrichedComments,
+    };
   },
 });
 
 export const getCommentByAuthorId = query({
-  args: { authorId: v.string() },
+  args: { authorId: v.string(), paginationOpts: paginationOptsValidator },
   handler: async (ctx, args) => {
     const comments = await ctx.db
       .query("comment")
       .withIndex("by_authorId", (q) => q.eq("authorId", args.authorId))
       .order("desc")
-      .collect();
-    return Promise.all(
-      comments.map(async (comment) => {
+      .paginate(args.paginationOpts);
+
+    const enrichedComments = await Promise.all(
+      comments.page.map(async (comment) => {
         const post = await ctx.db.get(comment.postId as Id<"posts">);
         return {
           ...comment,
@@ -73,5 +81,10 @@ export const getCommentByAuthorId = query({
         };
       }),
     );
+
+    return {
+      ...comments,
+      page: enrichedComments,
+    };
   },
 });

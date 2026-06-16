@@ -1,0 +1,16 @@
+<svg fill="none" height="36" viewBox="0 0 36 36" width="36" xmlns="http://www.w3.org/2000/svg">
+  <title>Avatar 10</title>
+  <mask height="36" id="mask10" maskUnits="userSpaceOnUse" width="36" x="0" y="0">
+    <rect fill="#FFFFFF" height="36" rx="72" width="36"/>
+  </mask>
+  <g mask="url(#mask10)">
+    <rect fill="#212121" height="36" width="36"/>
+    <path d="M-4 8 Q4 2 12 8 Q20 14 28 8 Q36 2 44 8 L44 44 L-4 44 Z" fill="#7c4dff" transform="rotate(15 18 18) translate(0 -4)"/>
+    <path d="M-4 20 Q4 14 12 20 Q20 26 28 20 Q36 14 44 20 L44 44 L-4 44 Z" fill="#00e5ff" opacity="0.5" transform="rotate(15 18 18) translate(0 0)"/>
+    <g transform="translate(0 0) rotate(-5 18 18)">
+      <path d="M10 14 Q12.5 12 15 14" fill="none" stroke="#ffffff" stroke-linecap="round" stroke-width="1.5"/>
+      <circle cx="23" cy="15" fill="#ffffff" r="1.5"/>
+      <line x1="14" y1="22" x2="22" y2="22" stroke="#ffffff" stroke-linecap="round" stroke-width="1.2"/>
+    </g>
+  </g>
+</svg>

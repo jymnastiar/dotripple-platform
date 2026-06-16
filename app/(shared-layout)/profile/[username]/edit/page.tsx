@@ -10,6 +10,7 @@ import { EditNoPermission } from "@/components/web/edit/edit-no-permission";
 import { EditProfilePicture } from "@/components/web/edit/edit-profile-picture";
 import { EditBasicInformation } from "@/components/web/edit/edit-basic-information";
 import { EditSocialAccounts } from "@/components/web/edit/edit-social-accounts";
+import AcatarPicker from "@/components/web/edit/avatar-picker";
 
 export default function EditProfilePage() {
   const { user, isOwner, form, handleEditProfile, isPending, username } =
@@ -35,10 +36,8 @@ export default function EditProfilePage() {
       </div>
 
       <div className="grid gap-8 px-4 sm:px-0">
-        <EditProfilePicture
-          name={user.name}
-          profileImage={user.profileImage ?? undefined}
-        />
+        <AcatarPicker control={form.control} />
+        {/* <EditProfilePicture name={user.name} /> */}
 
         <EditBasicInformation control={form.control} email={user.email} />
 

@@ -1,0 +1,16 @@
+<svg fill="none" height="36" viewBox="0 0 36 36" width="36" xmlns="http://www.w3.org/2000/svg">
+  <title>Avatar 9</title>
+  <mask height="36" id="mask9" maskUnits="userSpaceOnUse" width="36" x="0" y="0">
+    <rect fill="#FFFFFF" height="36" rx="72" width="36"/>
+  </mask>
+  <g mask="url(#mask9)">
+    <rect fill="#1b5e20" height="36" width="36"/>
+    <circle cx="10" cy="10" fill="#ffd54f" r="24"/>
+    <circle cx="4" cy="5" fill="#1b5e20" r="20"/>
+    <g transform="translate(2 2) rotate(10 18 18)">
+      <path d="M11 15 Q12.5 13 14 15" fill="none" stroke="#ffffff" stroke-linecap="round" stroke-width="1.5"/>
+      <path d="M22 15 Q23.5 13 25 15" fill="none" stroke="#ffffff" stroke-linecap="round" stroke-width="1.5"/>
+      <path d="M12 21 Q18 27 24 21" fill="none" stroke="#ffffff" stroke-linecap="round" stroke-width="1.4"/>
+    </g>
+  </g>
+</svg>

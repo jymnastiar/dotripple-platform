@@ -42,7 +42,7 @@ export type EditProfileFormValues = {
   name: string;
   username: string;
   description: string;
-  profileImage: string;
+  avatarId: string;
   twitterAccount: string;
   instagramAccount: string;
   githubAccount: string;
@@ -63,7 +63,7 @@ export function useEditProfile() {
       name: "",
       username: "",
       description: "",
-      profileImage: "",
+      avatarId: "",
       twitterAccount: "",
       instagramAccount: "",
       githubAccount: "",
@@ -74,7 +74,7 @@ export function useEditProfile() {
           name: user.name,
           username: user.username,
           description: user.description || "",
-          profileImage: user.profileImage || "",
+          avatarId: user.avatarId || "",
           twitterAccount: getSocialLink(user.twitterAccount || "", "x", "get"),
           instagramAccount: getSocialLink(
             user.instagramAccount || "",
@@ -116,7 +116,7 @@ export function useEditProfile() {
           name: data.name,
           username: data.username,
           description: data.description || "",
-          profileImage: data.profileImage || "",
+          avatarId: data.avatarId || "",
           twitterAccount:
             getSocialLink(data.twitterAccount, "x", "update") || "",
           instagramAccount:
@@ -130,11 +130,7 @@ export function useEditProfile() {
         toast.success("Profile updated successfully");
         router.push(`/profile/${data.username}`);
       } catch (err: any) {
-        const errorMessage =
-          err instanceof Error
-            ? err.message
-            : "An unexpected error occurred while updating your profile";
-        toast.error(errorMessage);
+        toast.error("An unexpected error occurred while updating your profile");
       }
     });
   }

@@ -26,19 +26,25 @@ export function UserBlogCard(blogs: BlogCard) {
         alt="Event cover"
         className="relative z-20 aspect-video w-full object-cover brightness-80 dark:brightness-60"
       />
-      <CardHeader className="h-20">
+      <CardHeader className="h-20 pt-0 bg-accent p-2">
         <CardAction>
           <Badge variant="secondary">{blogs.tags[0]}</Badge>
         </CardAction>
         <CardTitle className="truncate">{blogs.title}</CardTitle>
         <CardDescription className="line-clamp-2">{blogs.body}</CardDescription>
       </CardHeader>
-      <CardFooter>
+      <CardFooter className="p-2 flex gap-2 bg-amber-100">
         <Link
-          className={`w-full cursor-pointer${buttonVariants()}`}
+          className={`w-full cursor-pointer ${buttonVariants()}`}
           href={`/blog/${blogs._id}`}
         >
           View Blog
+        </Link>
+        <Link
+          className={`w-full cursor-pointer ${buttonVariants({ variant: "destructive" })}`}
+          href={`/blog/${blogs._id}`}
+        >
+          Delete Post
         </Link>
       </CardFooter>
     </Card>

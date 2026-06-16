@@ -1,0 +1,15 @@
+<svg fill="none" height="36" viewBox="0 0 36 36" width="36" xmlns="http://www.w3.org/2000/svg">
+  <title>Avatar 7</title>
+  <mask height="36" id="mask7" maskUnits="userSpaceOnUse" width="36" x="0" y="0">
+    <rect fill="#FFFFFF" height="36" rx="72" width="36"/>
+  </mask>
+  <g mask="url(#mask7)">
+    <rect fill="#1565c0" height="36" width="36"/>
+    <rect fill="#ff6f00" height="16" rx="8" transform="rotate(30 18 18) translate(-4 -14)" width="46"/>
+    <g transform="translate(0 1) rotate(8 18 18)">
+      <circle cx="12.5" cy="15" fill="#ffffff" r="1.5"/>
+      <path d="M21 14.5 Q23 13 25 14.5" fill="none" stroke="#ffffff" stroke-linecap="round" stroke-width="1.5"/>
+      <path d="M13 21 Q18 24 23 21" fill="none" stroke="#ffffff" stroke-linecap="round" stroke-width="1.2"/>
+    </g>
+  </g>
+</svg>

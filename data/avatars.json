@@ -1,0 +1,12 @@
+[
+  { "id": 1, "alt": "Avatar 1", "src": "/avatars/avatar-1.svg" },
+  { "id": 2, "alt": "Avatar 2", "src": "/avatars/avatar-2.svg" },
+  { "id": 3, "alt": "Avatar 3", "src": "/avatars/avatar-3.svg" },
+  { "id": 4, "alt": "Avatar 4", "src": "/avatars/avatar-4.svg" },
+  { "id": 5, "alt": "Avatar 5", "src": "/avatars/avatar-5.svg" },
+  { "id": 6, "alt": "Avatar 6", "src": "/avatars/avatar-6.svg" },
+  { "id": 7, "alt": "Avatar 7", "src": "/avatars/avatar-7.svg" },
+  { "id": 8, "alt": "Avatar 8", "src": "/avatars/avatar-8.svg" },
+  { "id": 9, "alt": "Avatar 9", "src": "/avatars/avatar-9.svg" },
+  { "id": 10, "alt": "Avatar 10", "src": "/avatars/avatar-10.svg" }
+]

@@ -12,7 +12,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import { Avatar, AvatarFallback } from "../ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -30,6 +30,7 @@ import { AnimatedThemeToggler } from "../ui/animated-theme-toggler";
 import { getInitials } from "@/hooks/user-initial";
 import { UseNavbar } from "@/hooks/use-navbar";
 import { MobileNavbar } from "./mobile-navbar";
+import avatars from "@/data/avatars.json";
 
 export function Navbar() {
   const {
@@ -41,10 +42,8 @@ export function Navbar() {
     userEmail,
     user,
     handleLogout,
-    getUser,
-    open,
-    setOpen,
-    recentPost,
+    getUserData,
+    avatarId,
   } = UseNavbar();
 
   return (
@@ -85,11 +84,20 @@ export function Navbar() {
                 <Spinner data-icon="inline-start" />
                 Loading...
               </Button>
-            ) : isAuthenticated || getUser !== null ? (
+            ) : isAuthenticated || getUserData !== null ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" size="icon" className="rounded-full">
                     <Avatar>
+                      {avatarId && (
+                        <AvatarImage
+                          src={
+                            (avatars.find((a) => String(a.id) === avatarId) ?? avatars[0])
+                              .src
+                          }
+                          alt="User avatar"
+                        />
+                      )}
                       <AvatarFallback className="text-primary font-semibold dark:bg-primary dark:text-foreground">
                         {getInitials(userName!)}
                       </AvatarFallback>
@@ -196,7 +204,7 @@ export function Navbar() {
         setMenuState={setMenuState}
         isLoading={isLoading}
         isAuthenticated={isAuthenticated}
-        getUser={getUser}
+        getUser={getUserData}
         userName={userName}
         userEmail={userEmail}
         handleLogout={handleLogout}

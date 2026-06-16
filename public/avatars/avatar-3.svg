@@ -1,0 +1,71 @@
+<svg
+  fill="none"
+  height="36"
+  viewBox="0 0 36 36"
+  width="36"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <mask
+    height="36"
+    id="pm13"
+    maskUnits="userSpaceOnUse"
+    width="36"
+    x="0"
+    y="0"
+  >
+    <rect fill="#FFFFFF" height="36" rx="72" width="36" />
+  </mask>
+  <g mask="url(#pm13)">
+    <rect fill="#f7971e" height="36" width="36" />
+    <circle cx="18" cy="-4" fill="#c0392b" r="22" />
+    <path
+      d="M-4 24 Q4 18 12 24 Q20 30 28 24 Q36 18 44 24 L44 44 L-4 44 Z"
+      fill="#8e44ad"
+    />
+    <g transform="translate(0 0) rotate(-5 18 18)">
+      <line
+        x1="11"
+        y1="13"
+        x2="15"
+        y2="17"
+        stroke="#ffffff"
+        stroke-linecap="round"
+        stroke-width="1.5"
+      />
+      <line
+        x1="15"
+        y1="13"
+        x2="11"
+        y2="17"
+        stroke="#ffffff"
+        stroke-linecap="round"
+        stroke-width="1.5"
+      />
+      <line
+        x1="21"
+        y1="13"
+        x2="25"
+        y2="17"
+        stroke="#ffffff"
+        stroke-linecap="round"
+        stroke-width="1.5"
+      />
+      <line
+        x1="25"
+        y1="13"
+        x2="21"
+        y2="17"
+        stroke="#ffffff"
+        stroke-linecap="round"
+        stroke-width="1.5"
+      />
+      <path
+        d="M11 21 Q18 28 25 21"
+        fill="none"
+        stroke="#ffffff"
+        stroke-linecap="round"
+        stroke-width="1.4"
+      />
+    </g>
+  </g>
+</svg>

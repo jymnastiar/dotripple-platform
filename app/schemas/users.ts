@@ -13,7 +13,7 @@ export const editUserSchema = z.object({
     .toLowerCase()
     .trim(),
   description: z.optional(z.string().min(10).max(300)),
-  profileImage: z.optional(z.string()),
+  avatarId: z.optional(z.string()),
   twitterAccount: z.union([
     z.literal(""),
     z.string().regex(/^[a-z0-9_]{1,15}$/, {

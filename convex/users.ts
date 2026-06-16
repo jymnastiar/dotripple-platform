@@ -14,6 +14,38 @@ export const getUserByUsername = query({
   },
 });
 
+export const getUserByBetterAuthId = query({
+  args: { betterAuthId: v.string() },
+  handler: async (ctx, args) => {
+    const existingUser = await ctx.db
+      .query("users")
+      .withIndex("by_betterAuthId", (q) =>
+        q.eq("betterAuthId", args.betterAuthId),
+      )
+      .unique();
+    return existingUser;
+  },
+});
+
+export const getCurrentUserWithProfile = query({
+  args: {},
+  handler: async (ctx) => {
+    try {
+      const authUser = await authComponent.getAuthUser(ctx);
+      if (!authUser) return null;
+
+      const profile = await ctx.db
+        .query("users")
+        .withIndex("by_betterAuthId", (q) => q.eq("betterAuthId", authUser._id))
+        .unique();
+
+      return profile;
+    } catch {
+      return null;
+    }
+  },
+});
+
 export const storeUser = internalMutation({
   args: {
     name: v.string(),
@@ -47,7 +79,7 @@ export const updateProfile = mutation({
     name: v.optional(v.string()),
     username: v.optional(v.string()),
     description: v.optional(v.string()),
-    profileImage: v.optional(v.string()),
+    avatarId: v.optional(v.string()),
     twitterAccount: v.optional(v.string()),
     instagramAccount: v.optional(v.string()),
     githubAccount: v.optional(v.string()),

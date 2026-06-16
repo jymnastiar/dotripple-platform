@@ -2,9 +2,10 @@ import { CircleOff } from "lucide-react";
 import BlogCardLoading from "../../blog/blog-card-skeleton";
 import { UserBlogCard } from "../user-blog-card";
 import { Button } from "@/components/ui/button";
+import { Id } from "@/convex/_generated/dataModel";
 
 interface Post {
-  _id: string;
+  _id: Id<"posts">;
   title: string;
   tags: string[];
   imageUrl: string | null;
@@ -15,9 +16,15 @@ interface BlogsTabsProps {
   posts: Post[];
   status: string;
   loadMore: (numItems: number) => void;
+  isOwner: boolean;
 }
 
-export default function BlogsTabs({ posts, status, loadMore }: BlogsTabsProps) {
+export default function BlogsTabs({
+  isOwner,
+  posts,
+  status,
+  loadMore,
+}: BlogsTabsProps) {
   return (
     <>
       <section className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
@@ -32,6 +39,7 @@ export default function BlogsTabs({ posts, status, loadMore }: BlogsTabsProps) {
               tags={blog.tags}
               imageUrl={blog.imageUrl || ""}
               body={blog.body}
+              isOwner={isOwner}
             />
           ))
         ) : (

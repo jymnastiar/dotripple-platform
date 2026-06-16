@@ -2,9 +2,10 @@ import { CircleOff } from "lucide-react";
 import { motion } from "motion/react";
 import BlogsTabs from "./tabs/blogs-tabs";
 import CommentsTabs from "./tabs/comments-tabs";
+import { Id } from "@/convex/_generated/dataModel";
 
 interface Post {
-  _id: string;
+  _id: Id<"posts">;
   title: string;
   tags: string[];
   imageUrl: string | null;
@@ -27,6 +28,7 @@ interface ProfileUserContentProps {
   statusComments: string;
   loadmoreComments: (numItems: number) => void;
   comments: Comments[];
+  isOwner: boolean;
 }
 
 export function ProfileUserContent({
@@ -37,6 +39,7 @@ export function ProfileUserContent({
   comments,
   statusComments,
   loadmoreComments,
+  isOwner,
 }: ProfileUserContentProps) {
   return (
     <motion.div
@@ -47,11 +50,17 @@ export function ProfileUserContent({
       className="space-y-6 lg:space-y-8"
     >
       {activeTab === "Blogs" && (
-        <BlogsTabs posts={posts} status={status} loadMore={loadMore} />
+        <BlogsTabs
+          isOwner={isOwner}
+          posts={posts}
+          status={status}
+          loadMore={loadMore}
+        />
       )}
 
       {activeTab === "Comments" && (
         <CommentsTabs
+          isOwner={isOwner}
           comments={comments}
           loadmoreComments={loadmoreComments}
           statusComments={statusComments}

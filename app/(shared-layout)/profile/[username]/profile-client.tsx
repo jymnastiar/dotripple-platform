@@ -69,6 +69,7 @@ export function ProfileClient({ username }: ProfileClientProps) {
               username={user.username}
             />
             <ProfileUserContent
+              isOwner={isOwner}
               activeTab={activeTab}
               posts={results}
               status={status}

@@ -196,3 +196,39 @@ export const searchPosts = query({
     };
   },
 });
+
+export const deletePost = mutation({
+  args: { id: v.id("posts") },
+  handler: async (ctx, args) => {
+    const user = await authComponent.safeGetAuthUser(ctx);
+    if (!user) {
+      throw new ConvexError("Not authenticated");
+    }
+
+    const post = await ctx.db.get(args.id);
+    if (!post) {
+      throw new ConvexError("Post not found");
+    }
+    if (post.authorId !== user._id) {
+      throw new ConvexError("Not authorized to delete this post");
+    }
+
+    // delete image
+    if (post.image) {
+      await ctx.storage.delete(post.image);
+    }
+
+    // delete associated comments
+    const comments = await ctx.db
+      .query("comment")
+      .withIndex("by_postId", (q) => q.eq("postId", args.id))
+      .collect();
+
+    for (const comment of comments) {
+      await ctx.db.delete(comment._id);
+    }
+
+    await ctx.db.delete(args.id);
+    return { success: true };
+  },
+});

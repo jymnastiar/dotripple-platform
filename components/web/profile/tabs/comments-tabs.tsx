@@ -1,8 +1,23 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { dateFormat } from "@/hooks/date-format";
-import { ArrowRight, Calendar, CircleOff, FileText } from "lucide-react";
+import { ArrowRight, Calendar, CircleOff, FileText, Trash2 } from "lucide-react";
 import Link from "next/link";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogMedia,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import { Id } from "@/convex/_generated/dataModel";
 
 interface Comments {
   _id: string;
@@ -13,19 +28,26 @@ interface Comments {
 }
 
 interface CommentsTabsProps {
+  isOwner?: boolean;
   comments: Comments[];
   statusComments: string;
   loadmoreComments: (numItems: number) => void;
 }
 
 export default function CommentsTabs({
+  isOwner,
   comments,
   statusComments,
   loadmoreComments,
 }: CommentsTabsProps) {
+  const deleteComment = useMutation(api.comment.deleteComment);
+
+  async function handleDeleteComment(commentId: string) {
+    await deleteComment({ id: commentId as Id<"comment"> });
+  }
   return (
     <>
-      <section className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+      <section className="grid gap-4 grid-cols-1 md:grid-cols-2">
         {statusComments === "LoadingFirstPage" ? (
           <div>Loading comments...</div>
         ) : comments.length > 0 ? (
@@ -35,21 +57,59 @@ export default function CommentsTabs({
               size="sm"
               className="group flex flex-col gap-3 p-5 hover:border-border/60 transition-colors duration-200"
             >
-              <div className="flex items-start gap-3">
-                <div className="size-8 rounded-md bg-muted border border-border flex items-center justify-center shrink-0">
-                  <FileText className="size-4 text-muted-foreground" />
+              <div className="flex items-start justify-between gap-3">
+                <div className="flex items-start gap-3 min-w-0 flex-1">
+                  <div className="size-8 rounded-md bg-muted border border-border flex items-center justify-center shrink-0">
+                    <FileText className="size-4 text-muted-foreground" />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-[11px] uppercase tracking-wide text-muted-foreground/70 mb-0.5">
+                      Commented on
+                    </p>
+                    <Link
+                      href={`/blog/${comment.postId}`}
+                      className="text-sm font-medium text-primary hover:opacity-75 truncate block transition-opacity"
+                    >
+                      {comment.title}
+                    </Link>
+                  </div>
                 </div>
-                <div className="min-w-0 flex-1">
-                  <p className="text-[11px] uppercase tracking-wide text-muted-foreground/70 mb-0.5">
-                    Commented on
-                  </p>
-                  <Link
-                    href={`/blog/${comment.postId}`}
-                    className="text-sm font-medium text-primary hover:opacity-75 truncate block transition-opacity"
-                  >
-                    {comment.title}
-                  </Link>
-                </div>
+
+                {isOwner && (
+                  <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-8 w-8 text-muted-foreground/50 hover:text-destructive hover:bg-destructive/10 rounded-full shrink-0 -mr-2 -mt-1 md:opacity-0 md:group-hover:opacity-100 md:focus:opacity-100 transition-all duration-200"
+                      >
+                        <Trash2 className="size-4" />
+                        <span className="sr-only">Delete Comment</span>
+                      </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent size="sm">
+                      <AlertDialogHeader>
+                        <AlertDialogMedia className="text-destructive dark:text-destructive">
+                          <Trash2 />
+                        </AlertDialogMedia>
+                        <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                        <AlertDialogDescription>
+                          This action cannot be undone. This will permanently delete
+                          your comment and remove it from our servers.
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction
+                          onClick={() => handleDeleteComment(comment._id)}
+                          variant="destructive"
+                        >
+                          Delete
+                        </AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
+                )}
               </div>
 
               <div className="text-sm leading-relaxed line-clamp-4 text-foreground border-l-2 border-border pl-3">

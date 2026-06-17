@@ -8,8 +8,10 @@ export default defineSchema({
     body: v.string(),
     tags: v.array(v.string()),
     authorId: v.string(),
+    commentCount: v.number(),
   })
     .index("by_authorId", ["authorId"])
+    .index("by_commmentCount", ["commentCount"])
     .searchIndex("search_title", {
       searchField: "title",
     }),

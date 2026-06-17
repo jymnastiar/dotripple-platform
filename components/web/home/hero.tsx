@@ -17,7 +17,12 @@ export default function HomeHeroSection() {
 
         <h1 className="text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight leading-tight">
           Unleash Your Thoughts. <br />
-          <TypingAnimation highlightText="Ripple" highlightClassName="text-primary">Join the DotRipple.</TypingAnimation>
+          <TypingAnimation
+            highlightText="Ripple"
+            highlightClassName="text-primary"
+          >
+            Join the DotRipple.
+          </TypingAnimation>
         </h1>
 
         <p className="text-base sm:text-xl text-muted-foreground max-w-2xl leading-relaxed">

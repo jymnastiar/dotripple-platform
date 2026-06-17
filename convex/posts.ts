@@ -24,6 +24,7 @@ export const createTask = mutation({
       body: args.body,
       tags: args.tags,
       authorId: user._id,
+      commentCount: 0,
     });
     return blogArticle;
   },
@@ -68,6 +69,7 @@ export const getPosts = query({
   handler: async (ctx, args) => {
     const result = await ctx.db
       .query("posts")
+      // .withIndex("by_commmentCount")
       .order("desc")
       .paginate(args.paginationOpts);
 
@@ -151,6 +153,33 @@ export const getRecentPosts = query({
         };
       }),
     );
+  },
+});
+
+export const getTrendingPosts = query({
+  args: {},
+  handler: async (ctx) => {
+    const post = await ctx.db
+      .query("posts")
+      .withIndex("by_commmentCount")
+      .order("desc")
+      .first();
+
+    if (!post) {
+      return null;
+    }
+
+    const user = await ctx.db
+      .query("users")
+      .withIndex("by_betterAuthId", (q) => q.eq("betterAuthId", post.authorId))
+      .unique();
+
+    return {
+      ...post,
+      imageUrl: post.image ? await ctx.storage.getUrl(post.image) : null,
+      username: user?.username ?? "unknown",
+      name: user?.name ?? "Unknown User",
+    };
   },
 });
 

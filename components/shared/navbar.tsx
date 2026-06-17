@@ -92,8 +92,10 @@ export function Navbar() {
                       {avatarId && (
                         <AvatarImage
                           src={
-                            (avatars.find((a) => String(a.id) === avatarId) ?? avatars[0])
-                              .src
+                            (
+                              avatars.find((a) => String(a.id) === avatarId) ??
+                              avatars[0]
+                            ).src
                           }
                           alt="User avatar"
                         />
@@ -112,7 +114,9 @@ export function Navbar() {
                         {user}
                       </DropdownMenuItem>
                     </Link>
-                    <DropdownMenuItem>Settings</DropdownMenuItem>
+                    <DropdownMenuItem>
+                      <Link href={`/profile/${user}/edit`}>Edit Profile</Link>
+                    </DropdownMenuItem>
                   </DropdownMenuGroup>
                   <DropdownMenuSeparator />
                   <DropdownMenuGroup>
@@ -200,6 +204,7 @@ export function Navbar() {
       </div>
 
       <MobileNavbar
+        user={user}
         menuState={menuState}
         setMenuState={setMenuState}
         isLoading={isLoading}

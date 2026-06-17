@@ -31,6 +31,7 @@ export default function BlogDetailPageClient({
     <article className="py-12 max-w-5xl mx-auto">
       <BlogPostContent post={post!} />
       <CommentSection
+        commentCount={post.commentCount}
         status={status}
         loadMore={loadMore}
         comments={results}

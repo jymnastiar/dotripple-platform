@@ -13,6 +13,7 @@ interface CommentItem {
 }
 
 interface CommentSectionProps {
+  commentCount: number;
   comments: CommentItem[] | undefined;
   status: string;
   loadMore: (numItems: number) => void;
@@ -23,6 +24,7 @@ interface CommentSectionProps {
 }
 
 export function CommentSection({
+  commentCount,
   comments,
   userName = "",
   form,
@@ -36,7 +38,7 @@ export function CommentSection({
       <div className="flex items-center gap-2 mb-8">
         <MessageSquare className="size-6 text-primary" />
         <h2 className="text-2xl font-bold tracking-tight">
-          Comments ({comments?.length ?? 0})
+          Comments ({commentCount})
         </h2>
       </div>
 

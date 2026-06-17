@@ -15,6 +15,7 @@ interface MobileNavbarProps {
   userName: string | undefined;
   userEmail: string | undefined;
   handleLogout: () => void;
+  user: string | undefined;
 }
 
 export function MobileNavbar({
@@ -26,6 +27,7 @@ export function MobileNavbar({
   userName,
   userEmail,
   handleLogout,
+  user,
 }: MobileNavbarProps) {
   return (
     <div
@@ -91,7 +93,7 @@ export function MobileNavbar({
               </div>
 
               <Link
-                href="/profile"
+                href={`/profile/${user}`}
                 className={buttonVariants({
                   variant: "ghost",
                   className: "justify-start",

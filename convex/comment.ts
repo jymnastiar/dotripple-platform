@@ -26,7 +26,10 @@ export const createComment = mutation({
       text: args.text,
       authorId: user._id,
     });
-    return comment;
+    const countComment = await ctx.db.patch("posts", post._id, {
+      commentCount: (post.commentCount ?? 0) + 1,
+    });
+    return { comment, countComment };
   },
 });
 
@@ -106,11 +109,18 @@ export const deleteComment = mutation({
     const isCommentOwner = comment.authorId === user._id;
     const isPostOwner = post ? post.authorId === user._id : false;
 
+    if (!post) {
+      throw new ConvexError("Post not found");
+    }
+
     if (!isCommentOwner && !isPostOwner) {
       throw new ConvexError("Not authorized to delete this comment");
     }
 
     await ctx.db.delete(args.id);
+    await ctx.db.patch("posts", post._id, {
+      commentCount: Math.max(0, (post.commentCount ?? 0) - 1),
+    });
     return { success: true };
   },
 });

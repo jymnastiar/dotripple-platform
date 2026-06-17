@@ -14,6 +14,7 @@ import { buttonVariants } from "../../ui/button";
 import { Avatar, AvatarFallback } from "../../ui/avatar";
 import { getInitials } from "@/hooks/user-initial";
 import { dateFormat } from "@/hooks/date-format";
+import { MessageSquare } from "lucide-react";
 
 interface BlogCardProps {
   _id: string;
@@ -24,6 +25,7 @@ interface BlogCardProps {
   username: string;
   name: string;
   _creationTime?: number;
+  commentCount?: number;
 }
 
 export function BlogCard({
@@ -35,6 +37,7 @@ export function BlogCard({
   username,
   name,
   _creationTime,
+  commentCount,
 }: BlogCardProps) {
   return (
     <Card className="flex flex-col py-0 justify-between overflow-hidden border border-border bg-card/40 hover:bg-card/80 transition-all hover:scale-[1.01] w-full mx-auto shadow-xs">
@@ -71,6 +74,10 @@ export function BlogCard({
         {_creationTime && (
           <div className="flex items-center justify-between text-xs text-muted-foreground pt-3 border-t border-border/40">
             <span>{dateFormat(_creationTime)}</span>
+            <span className="flex items-center gap-1.5">
+              <MessageSquare className="size-3.5" />
+              {commentCount ?? 0}
+            </span>
           </div>
         )}
       </CardContent>

@@ -129,7 +129,7 @@ export function useEditProfile() {
 
         toast.success("Profile updated successfully");
         router.push(`/profile/${data.username}`);
-      } catch (err: any) {
+      } catch (err) {
         toast.error("An unexpected error occurred while updating your profile");
       }
     });

@@ -21,8 +21,8 @@ export async function createBlogAction(data: z.infer<typeof postSchema>) {
     });
     revalidatePath("/");
     return { success: true };
-  } catch (error: any) {
-    if (error.message?.includes("Not authenticated")) {
+  } catch (error) {
+    if (error instanceof Error && error.message.includes("Not authenticated")) {
       return {
         success: false,
         error: "You must be logged in to create a post",

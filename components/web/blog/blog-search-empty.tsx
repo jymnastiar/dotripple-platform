@@ -15,10 +15,10 @@ export function BlogSearchEmpty({ searchTitle }: BlogSearchEmptyProps) {
 
       <div className="max-w-md mx-auto space-y-2">
         <h3 className="text-xl font-bold tracking-tight">
-          No matches found for "{searchTitle}"
+          No matches found for &quot;{searchTitle}&quot;
         </h3>
         <p className="text-sm text-muted-foreground leading-relaxed">
-          We couldn't find any articles matching your search. Please check your spelling or try using different keywords.
+          We couldn&apos;t find any articles matching your search. Please check your spelling or try using different keywords.
         </p>
       </div>
     </div>

@@ -11,10 +11,12 @@ import DotRippleIcon from "@/src/logo/dot-ripple-icon";
 export default function NotFoundPage() {
   const router = useRouter();
   const { resolvedTheme } = useTheme();
-  const [color, setColor] = useState("#ffffff");
+  const [mounted, setMounted] = useState(false);
   useEffect(() => {
-    setColor(resolvedTheme === "dark" ? "#ffffff" : "#000000");
-  }, [resolvedTheme]);
+    setMounted(true);
+  }, []);
+
+  const color = mounted && resolvedTheme === "dark" ? "#ffffff" : "#000000";
 
   return (
     <section className="relative w-full h-screen flex flex-col items-center justify-center overflow-hidden">

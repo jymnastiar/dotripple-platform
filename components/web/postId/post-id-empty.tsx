@@ -10,7 +10,7 @@ export function PostIdEmpty() {
       </div>
       <h1 className="text-3xl font-bold tracking-tight mb-2">Post Not Found</h1>
       <p className="text-muted-foreground mb-8 max-w-md">
-        The blog post you're looking for doesn't exist, has been removed, or you
+        The blog post you&apos;re looking for doesn&apos;t exist, has been removed, or you
         might have a wrong URL.
       </p>
       <Link href="/blog" className={buttonVariants({ variant: "default" })}>

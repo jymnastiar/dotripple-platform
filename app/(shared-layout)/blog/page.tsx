@@ -8,7 +8,7 @@ import { Search, X, BookOpen } from "lucide-react";
 import { useBlogSearch } from "@/hooks/use-blog-search";
 import BlogLogic from "@/components/web/blog/blog-logic";
 
-export default function BlogPage() {
+function BlogContent() {
   const { searchBlog, setSearchBlog, debounceTitle } = useBlogSearch();
 
   return (
@@ -65,5 +65,19 @@ export default function BlogPage() {
         </Suspense>
       </div>
     </section>
+  );
+}
+
+export default function BlogPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 py-12">
+          <BlogCardLoading />
+        </div>
+      }
+    >
+      <BlogContent />
+    </Suspense>
   );
 }

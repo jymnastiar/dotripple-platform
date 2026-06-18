@@ -99,11 +99,18 @@ export function DotPattern({
     (_, i) => {
       const col = i % Math.ceil(dimensions.width / width)
       const row = Math.floor(i / Math.ceil(dimensions.width / width))
+      
+      // Pure deterministic delay & duration based on coordinate hash to satisfy React 19 purity rules
+      const hash = (x: number, y: number) => {
+        const h = Math.sin(x * 12.9898 + y * 78.233) * 43758.5453;
+        return h - Math.floor(h);
+      };
+      
       return {
         x: col * width + cx + x,
         y: row * height + cy + y,
-        delay: Math.random() * 5,
-        duration: Math.random() * 3 + 2,
+        delay: hash(col, row) * 5,
+        duration: hash(row, col) * 3 + 2,
       }
     }
   )

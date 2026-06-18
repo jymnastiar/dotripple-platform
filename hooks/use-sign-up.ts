@@ -23,7 +23,7 @@ export function useSignUp() {
 
   function handleSignUp(data: z.infer<typeof signUpSchema>) {
     startTransition(async () => {
-      await (authClient.signUp.email as any)({
+      await (authClient.signUp.email as unknown as (data: Record<string, unknown>) => Promise<unknown>)({
         email: data.email,
         name: data.name,
         password: data.password,

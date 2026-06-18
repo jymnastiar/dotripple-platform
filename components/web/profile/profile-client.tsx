@@ -50,6 +50,7 @@ export function ProfileClient({ username }: ProfileClientProps) {
       <div className="container max-w-5xl mx-auto px-4 mt-12 relative z-10">
         <section className="flex flex-col lg:flex-row gap-6 lg:gap-8 p-4 lg:p-0">
           <ProfileUserCard
+            avatarId={user.avatarId}
             name={user.name}
             username={user.username}
             description={user.description}

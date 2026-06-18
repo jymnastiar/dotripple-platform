@@ -8,5 +8,9 @@
   { "id": 7, "alt": "Avatar 7", "src": "/avatars/avatar-7.svg" },
   { "id": 8, "alt": "Avatar 8", "src": "/avatars/avatar-8.svg" },
   { "id": 9, "alt": "Avatar 9", "src": "/avatars/avatar-9.svg" },
-  { "id": 10, "alt": "Avatar 10", "src": "/avatars/avatar-10.svg" }
+  { "id": 10, "alt": "Avatar 10", "src": "/avatars/avatar-10.svg" },
+  { "id": 11, "alt": "Avatar 11", "src": "/avatars/avatar-11.svg" },
+  { "id": 12, "alt": "Avatar 12", "src": "/avatars/avatar-12.svg" },
+  { "id": 13, "alt": "Avatar 13", "src": "/avatars/avatar-13.svg" },
+  { "id": 14, "alt": "Avatar 14", "src": "/avatars/avatar-14.svg" }
 ]

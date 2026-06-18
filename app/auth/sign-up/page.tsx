@@ -1,14 +1,6 @@
 "use client";
 
-import { Button, buttonVariants } from "@/components/ui/button";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-  CardFooter,
-} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import {
   Field,
   FieldError,
@@ -20,120 +12,129 @@ import { Spinner } from "@/components/ui/spinner";
 import Link from "next/link";
 import { Controller } from "react-hook-form";
 import { useSignUp } from "@/hooks/use-sign-up";
+import { motion } from "motion/react";
 
 export default function SignUpPage() {
   const { form, isPending, handleSignUp } = useSignUp();
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Sign Up</CardTitle>
-        <CardDescription>Create an account to get started</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <form id="signup-form" onSubmit={form.handleSubmit(handleSignUp)}>
-          <FieldGroup className="gap-y-4">
-            <Controller
-              name="name"
-              control={form.control}
-              render={({ field, fieldState }) => (
-                <Field>
-                  <FieldLabel>Full Name</FieldLabel>
-                  <Input
-                    aria-invalid={fieldState.invalid}
-                    placeholder="John Doe"
-                    {...field}
-                  />
-                  {fieldState.error && (
-                    <FieldError errors={[fieldState.error]} />
-                  )}
-                </Field>
-              )}
-            />
-            <Controller
-              name="email"
-              control={form.control}
-              render={({ field, fieldState }) => (
-                <Field>
-                  <FieldLabel>Email</FieldLabel>
-                  <Input
-                    aria-invalid={fieldState.invalid}
-                    placeholder="example@gmail.com"
-                    type="email"
-                    {...field}
-                  />
-                  {fieldState.error && (
-                    <FieldError errors={[fieldState.error]} />
-                  )}
-                </Field>
-              )}
-            />
-            <Controller
-              name="username"
-              control={form.control}
-              render={({ field, fieldState }) => (
-                <Field>
-                  <FieldLabel>Username</FieldLabel>
-                  <Input
-                    aria-invalid={fieldState.invalid}
-                    placeholder="john_doe"
-                    {...field}
-                  />
-                  {fieldState.error && (
-                    <FieldError errors={[fieldState.error]} />
-                  )}
-                </Field>
-              )}
-            />
-            <Controller
-              name="password"
-              control={form.control}
-              render={({ field, fieldState }) => (
-                <Field>
-                  <FieldLabel>Password</FieldLabel>
-                  <Input
-                    aria-invalid={fieldState.invalid}
-                    type="password"
-                    {...field}
-                  />
-                  {fieldState.error && (
-                    <FieldError errors={[fieldState.error]} />
-                  )}
-                </Field>
-              )}
-            />
-          </FieldGroup>
-        </form>
-      </CardContent>
+    <motion.div
+      initial={{ opacity: 0, y: 15 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.35, ease: "easeOut" }}
+      className="flex flex-col gap-8 mt-6 w-full"
+    >
+      <div className="flex flex-col gap-2">
+        <h1 className="text-3xl font-extrabold tracking-tight">
+          Join Dot<span className="text-primary">Ripple</span>
+        </h1>
+        <p className="text-sm text-muted-foreground">
+          Start sharing your ideas and spark waves of conversation.
+        </p>
+      </div>
 
-      <CardFooter className="flex-col gap-2">
+      <form
+        id="signup-form"
+        onSubmit={form.handleSubmit(handleSignUp)}
+        className="flex flex-col gap-5"
+      >
+        <FieldGroup className="gap-y-4">
+          <Controller
+            name="name"
+            control={form.control}
+            render={({ field, fieldState }) => (
+              <Field>
+                <FieldLabel>Full Name</FieldLabel>
+                <Input
+                  aria-invalid={fieldState.invalid}
+                  placeholder="John Doe"
+                  {...field}
+                />
+                {fieldState.error && <FieldError errors={[fieldState.error]} />}
+              </Field>
+            )}
+          />
+          <Controller
+            name="email"
+            control={form.control}
+            render={({ field, fieldState }) => (
+              <Field>
+                <FieldLabel>Email</FieldLabel>
+                <Input
+                  aria-invalid={fieldState.invalid}
+                  placeholder="example@gmail.com"
+                  type="email"
+                  {...field}
+                />
+                {fieldState.error && <FieldError errors={[fieldState.error]} />}
+              </Field>
+            )}
+          />
+          <Controller
+            name="username"
+            control={form.control}
+            render={({ field, fieldState }) => (
+              <Field>
+                <FieldLabel>Username</FieldLabel>
+                <Input
+                  aria-invalid={fieldState.invalid}
+                  placeholder="john_doe"
+                  {...field}
+                />
+                {fieldState.error && <FieldError errors={[fieldState.error]} />}
+              </Field>
+            )}
+          />
+          <Controller
+            name="password"
+            control={form.control}
+            render={({ field, fieldState }) => (
+              <Field>
+                <FieldLabel>Password</FieldLabel>
+                <Input
+                  aria-invalid={fieldState.invalid}
+                  type="password"
+                  placeholder="••••••••"
+                  {...field}
+                />
+                {fieldState.error && <FieldError errors={[fieldState.error]} />}
+              </Field>
+            )}
+          />
+        </FieldGroup>
+
         <Button
           disabled={isPending}
           form="signup-form"
           type="submit"
-          className="w-full cursor-pointer"
+          className="w-full cursor-pointer font-semibold"
         >
           {isPending ? (
             <>
               <Spinner data-icon="inline-start" />
-              <span>Loading...</span>
+              <span>Creating account...</span>
             </>
           ) : (
-            "Sign Up"
+            "Create account"
           )}
         </Button>
-        <div className="flex justify-center items-center gap-2 w-full">
-          <hr className="flex-1" />
-          <span className="text-center">or have an account</span>
-          <hr className="flex-1" />
-        </div>
+      </form>
+
+      <div className="flex items-center gap-3 text-xs text-muted-foreground">
+        <hr className="flex-1 border-border" />
+        <span>or</span>
+        <hr className="flex-1 border-border" />
+      </div>
+
+      <p className="text-center text-sm text-muted-foreground">
+        Already have an account?{" "}
         <Link
-          href={"/auth/login"}
-          className={`w-full ${buttonVariants({ variant: "outline" })}`}
+          href="/auth/login"
+          className="font-semibold text-primary hover:underline underline-offset-4"
         >
-          Login
+          Sign in
         </Link>
-      </CardFooter>
-    </Card>
+      </p>
+    </motion.div>
   );
 }

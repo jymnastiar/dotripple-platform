@@ -1,16 +1,16 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Loader2, Save } from "lucide-react";
 
 import { useEditProfile } from "@/hooks/use-edit-profile";
 import { EditSkeleton } from "@/components/web/edit/edit-skeleton";
 import { EditEmpty } from "@/components/web/edit/edit-empty";
 import { EditNoPermission } from "@/components/web/edit/edit-no-permission";
-import { EditProfilePicture } from "@/components/web/edit/edit-profile-picture";
 import { EditBasicInformation } from "@/components/web/edit/edit-basic-information";
 import { EditSocialAccounts } from "@/components/web/edit/edit-social-accounts";
 import AcatarPicker from "@/components/web/edit/avatar-picker";
+import Link from "next/link";
 
 export default function EditProfilePage() {
   const { user, isOwner, form, handleEditProfile, isPending, username } =
@@ -37,7 +37,6 @@ export default function EditProfilePage() {
 
       <div className="grid gap-8 px-4 sm:px-0">
         <AcatarPicker control={form.control} />
-        {/* <EditProfilePicture name={user.name} /> */}
 
         <EditBasicInformation control={form.control} email={user.email} />
 
@@ -57,14 +56,12 @@ export default function EditProfilePage() {
             Save Changes
           </Button>
 
-          <Button
-            type="button"
-            className="w-full cursor-pointer"
-            variant={"outline"}
-            onClick={() => window.history.back()}
+          <Link
+            className={`w-full cursor-pointer ${buttonVariants({ variant: "secondary" })}`}
+            href={`/profile/${username}`}
           >
             Cancel
-          </Button>
+          </Link>
         </div>
       </div>
     </form>

@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { PenLine } from "lucide-react";
 import { Controller } from "react-hook-form";
 import { useCreatePost } from "@/hooks/use-create-post";
 import { useRouter } from "next/navigation";
@@ -36,13 +37,19 @@ export default function CreatePage() {
   } = useCreatePost();
 
   return (
-    <section className="py-12">
-      <div className="text-center mb-12">
-        <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl">
-          Create Post
+    <section className="py-12 md:py-16 flex flex-col gap-12 w-full">
+      <div className="relative flex flex-col items-center text-center gap-4 max-w-3xl mx-auto">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary/20 dark:border-primary/40 bg-primary/5 dark:bg-primary/20 text-primary text-xs font-semibold animate-pulse">
+          <PenLine className="size-3" />
+          <span>Share Your Thoughts With The World</span>
+        </div>
+
+        <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight leading-tight">
+          Create a <span className="text-primary">Ripple</span>
         </h1>
-        <p className="text-xl text-muted-foreground pt-4">
-          Share your ideas, insights, and stories with the community.
+        <p className="text-base sm:text-lg text-muted-foreground leading-relaxed max-w-2xl">
+          Write your ideas, insights, and stories. Every post you publish
+          creates a new wave in the community.
         </p>
       </div>
 

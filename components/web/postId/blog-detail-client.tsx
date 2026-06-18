@@ -19,6 +19,7 @@ export default function BlogDetailPageClient({
     status,
     loadMore,
     getUser,
+    getUserInfo,
     isPending,
     form,
     handlePostComment,
@@ -36,6 +37,7 @@ export default function BlogDetailPageClient({
         loadMore={loadMore}
         comments={results}
         userName={getUser?.name}
+        avatarId={getUserInfo?.avatarId}
         form={form}
         onSubmit={handlePostComment}
         isPending={isPending}

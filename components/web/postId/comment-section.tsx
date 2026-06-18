@@ -10,6 +10,7 @@ interface CommentItem {
   name: string;
   _creationTime: number;
   text: string;
+  avatarId?: string;
 }
 
 interface CommentSectionProps {
@@ -18,6 +19,7 @@ interface CommentSectionProps {
   status: string;
   loadMore: (numItems: number) => void;
   userName?: string;
+  avatarId?: string;
   form: UseFormReturn<z.infer<typeof commentSchema>>;
   onSubmit: (data: z.infer<typeof commentSchema>) => void;
   isPending: boolean;
@@ -27,6 +29,7 @@ export function CommentSection({
   commentCount,
   comments,
   userName = "",
+  avatarId,
   form,
   onSubmit,
   isPending,
@@ -43,6 +46,7 @@ export function CommentSection({
       </div>
 
       <CommentForm
+        avatarId={avatarId}
         form={form}
         onSubmit={onSubmit}
         isPending={isPending}

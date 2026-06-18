@@ -12,11 +12,12 @@ import {
   CardAction,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { buttonVariants } from "@/components/ui/button";
 import { dateFormat } from "@/hooks/date-format";
 import { getInitials } from "@/hooks/user-initial";
 import { BlogEmpty } from "../blog/blog-empty";
+import avatars from "@/data/avatars.json";
 
 interface HomeRecentSectionProps {
   recentPost: typeof api.posts.getRecentPosts._returnType | undefined;
@@ -87,6 +88,18 @@ export default function HomeRecentSection({
               <CardFooter className="pb-6 pt-0 flex items-center justify-between gap-4">
                 <div className="flex items-center gap-2">
                   <Avatar className="size-8 border border-border">
+                    {post.avatarId && (
+                      <AvatarImage
+                        src={
+                          (
+                            avatars.find(
+                              (a) => String(a.id) === post.avatarId,
+                            ) ?? avatars[0]
+                          ).src
+                        }
+                        alt="User avatar"
+                      />
+                    )}
                     <AvatarFallback className="bg-primary text-primary-foreground font-bold">
                       {getInitials(post.name)}
                     </AvatarFallback>

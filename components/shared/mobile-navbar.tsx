@@ -2,9 +2,23 @@
 
 import Link from "next/link";
 import { Button, buttonVariants } from "@/components/ui/button";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogMedia,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { Spinner } from "@/components/ui/spinner";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { getInitials } from "@/hooks/user-initial";
+import { LogOut } from "lucide-react";
+import avatars from "@/data/avatars.json";
 
 interface MobileNavbarProps {
   menuState: boolean;
@@ -16,6 +30,7 @@ interface MobileNavbarProps {
   userEmail: string | undefined;
   handleLogout: () => void;
   user: string | undefined;
+  avatarId: string | undefined;
 }
 
 export function MobileNavbar({
@@ -28,6 +43,7 @@ export function MobileNavbar({
   userEmail,
   handleLogout,
   user,
+  avatarId,
 }: MobileNavbarProps) {
   return (
     <div
@@ -85,6 +101,17 @@ export function MobileNavbar({
             <div className="flex flex-col gap-2">
               <div className="flex items-center gap-3 px-4 mb-2">
                 <Avatar>
+                  {avatarId && (
+                    <AvatarImage
+                      src={
+                        (
+                          avatars.find((a) => String(a.id) === avatarId) ??
+                          avatars[0]
+                        ).src
+                      }
+                      alt="User avatar"
+                    />
+                  )}
                   <AvatarFallback className="text-primary font-semibold dark:bg-primary dark:text-foreground">
                     {getInitials(userName!)}
                   </AvatarFallback>
@@ -102,13 +129,43 @@ export function MobileNavbar({
               >
                 Profile
               </Link>
-              <Button
-                onClick={handleLogout}
-                variant={"destructive"}
-                className="justify-baseline"
-              >
-                Log out
-              </Button>
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <Button
+                    variant="destructive"
+                    className="w-full justify-start"
+                  >
+                    Log out
+                  </Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent size="sm">
+                  <AlertDialogHeader>
+                    <AlertDialogMedia className="text-destructive dark:text-destructive">
+                      <LogOut />
+                    </AlertDialogMedia>
+                    <AlertDialogTitle>Log out</AlertDialogTitle>
+                    <AlertDialogDescription>
+                      You will be securely signed out of{" "}
+                      <span className="font-extrabold text-foreground">
+                        Dot<span className="text-primary">Ripple</span>
+                      </span>
+                      . You will need to enter your credentials to access your
+                      dashboard again
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel variant="outline">
+                      Cancel
+                    </AlertDialogCancel>
+                    <AlertDialogAction
+                      onClick={handleLogout}
+                      variant="destructive"
+                    >
+                      Sign out
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
             </div>
           ) : (
             <div className="flex flex-col gap-2">

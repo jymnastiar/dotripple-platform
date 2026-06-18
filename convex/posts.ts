@@ -69,7 +69,6 @@ export const getPosts = query({
   handler: async (ctx, args) => {
     const result = await ctx.db
       .query("posts")
-      // .withIndex("by_commmentCount")
       .order("desc")
       .paginate(args.paginationOpts);
 
@@ -97,6 +96,7 @@ export const getPosts = query({
           imageUrl: post.image ? await ctx.storage.getUrl(post.image) : null,
           username: author?.username ?? "unknown",
           name: author?.name ?? "Unknown User",
+          avatarId: author?.avatarId ?? undefined,
         };
       }),
     );
@@ -127,6 +127,7 @@ export const getPostsById = query({
       imageUrl,
       username: postAuthor?.username ?? "unknown",
       name: postAuthor?.name ?? "Unknown User",
+      avatarId: postAuthor?.avatarId ?? undefined,
     };
   },
 });
@@ -150,6 +151,7 @@ export const getRecentPosts = query({
             ? await ctx.storage.getUrl(post.image)
             : "/images/no-image-available.jpg",
           name: user?.name ?? "Unknown User",
+          avatarId: user?.avatarId ?? undefined,
         };
       }),
     );
@@ -179,6 +181,7 @@ export const getTrendingPosts = query({
       imageUrl: post.image ? await ctx.storage.getUrl(post.image) : null,
       username: user?.username ?? "unknown",
       name: user?.name ?? "Unknown User",
+      avatarId: user?.avatarId ?? undefined,
     };
   },
 });
@@ -215,6 +218,7 @@ export const searchPosts = query({
           imageUrl: post.image ? await ctx.storage.getUrl(post.image) : null,
           username: author?.username ?? "unknown",
           name: author?.name ?? "Unknown User",
+          avatarId: author?.avatarId ?? undefined,
         };
       }),
     );

@@ -53,8 +53,7 @@ export function Footer() {
                 <InstagramLogo className="size-5" />
               </Link>
               <Link
-                href="/profile/jymnastiar"
-                // href="https://dotrippel.vercel.app/profile/jymnastiar"
+                href="https://dotrippel.vercel.app/profile/jymnastiar"
                 target="_blank"
                 className="p-2 rounded-lg bg-secondary hover:text-primary transition-all text-muted-foreground"
                 aria-label="DotRipple Profile"

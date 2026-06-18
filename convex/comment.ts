@@ -55,6 +55,7 @@ export const getComment = query({
         return {
           ...comment,
           name: author?.name ?? "Unknown User",
+          avatarId: author?.avatarId ?? undefined,
         };
       }),
     );

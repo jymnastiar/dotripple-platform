@@ -11,10 +11,11 @@ import { Badge } from "../../ui/badge";
 import Link from "next/link";
 import Image from "next/image";
 import { buttonVariants } from "../../ui/button";
-import { Avatar, AvatarFallback } from "../../ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar";
 import { getInitials } from "@/hooks/user-initial";
 import { dateFormat } from "@/hooks/date-format";
 import { MessageSquare } from "lucide-react";
+import avatars from "@/data/avatars.json";
 
 interface BlogCardProps {
   _id: string;
@@ -26,6 +27,7 @@ interface BlogCardProps {
   name: string;
   _creationTime?: number;
   commentCount?: number;
+  avatarId: string | undefined;
 }
 
 export function BlogCard({
@@ -38,6 +40,7 @@ export function BlogCard({
   name,
   _creationTime,
   commentCount,
+  avatarId,
 }: BlogCardProps) {
   return (
     <Card className="flex flex-col py-0 justify-between overflow-hidden border border-border bg-card/40 hover:bg-card/80 transition-all hover:scale-[1.01] w-full mx-auto shadow-xs">
@@ -85,6 +88,15 @@ export function BlogCard({
       <CardFooter className="pb-6 pt-0 flex items-center justify-between gap-4">
         <div className="flex items-center gap-2 overflow-hidden">
           <Avatar className="size-8 border border-border">
+            {avatarId && (
+              <AvatarImage
+                src={
+                  (avatars.find((a) => String(a.id) === avatarId) ?? avatars[0])
+                    .src
+                }
+                alt="User avatar"
+              />
+            )}
             <AvatarFallback className="bg-primary text-primary-foreground font-bold text-xs">
               {getInitials(name)}
             </AvatarFallback>

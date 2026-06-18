@@ -1,36 +1,83 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<p align="center">
+  <img src="public/dot-ripple-logo.png" alt="DotRipple Logo" width="250" />
+</p>
 
-## Getting Started
+<p align="center">
+  <strong>Unleash Your Thoughts. Join the Ripple.</strong>
+</p>
 
-First, run the development server:
+<p align="center">
+  A modern, high-performance blogging and community discussion platform built for writers, creators, and thinkers to publish stories, connect with readers, and spark conversations.
+</p>
+
+---
+
+## 🌟 Features
+
+- **⚡ Real-time Publishing**: Instant updates and reactive queries powered by Convex.
+- **💬 Dynamic & Secure Comments**: Engage with authors safely with robust server-side authentication and role-based comment moderation.
+- **👤 Creator Spotlight**: Custom user profile cards showcasing bios, avatars, and linked social channels (GitHub, LinkedIn, Twitter/X, Instagram).
+- **🎨 Premium Aesthetic**: A beautiful dark/light mode UI built with custom glassmorphism, responsive grids, and micro-interactions.
+- **🔒 Secure Architecture**: Robust server-side authorization preventing spoofing (IDOR) and database integrity checks.
+
+---
+
+## 💻 Tech Stack
+
+### Frontend
+
+- **Core**: [Next.js](https://nextjs.org/)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
+- **Forms & Validation**: [React Hook Form](https://react-hook-form.com/) & [Zod](https://zod.dev/)
+- **UI Components**: [Shadcn UI](https://ui.shadcn.com/)
+
+### Backend
+
+- **Database & API**: [Convex](https://convex.dev/)
+- **Authentication**: [Better Auth](https://www.better-auth.com/)
+
+---
+
+## 🚀 Getting Started
+
+Follow these steps to set up and run the project locally.
+
+### Prerequisites
+
+- Node.js (v18.x or later)
+- pnpm (recommended), npm, or yarn
+
+### 1. Install Dependencies
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+pnpm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Start the Backend (Convex)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Convex handles your database and server-side endpoints. Run the following command to start the development database:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+pnpm convex dev
+```
 
-## Learn More
+_Note: This command will generate your `.env.local` file containing the `NEXT_PUBLIC_CONVEX_URL` automatically._
 
-To learn more about Next.js, take a look at the following resources:
+### 3. Run the Development Server
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+In another terminal window, start the Next.js development server:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+pnpm dev
+```
 
-## Deploy on Vercel
+### 4. Open the App
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Navigate to [http://localhost:3000](http://localhost:3000) in your browser to view the application.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## 🛡️ Security Measures
+
+- **Server-side Authorization**: Session tokens are verified securely on the Convex backend for all mutative operations (creating/deleting comments, updating profiles).
+- **Input Sanitization**: React automatically sanitizes all rendered variables (escaping HTML entities) to guard against XSS. Skema Zod ensures input format conformance.

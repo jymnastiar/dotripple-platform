@@ -114,9 +114,9 @@ export function Navbar() {
                         {user}
                       </DropdownMenuItem>
                     </Link>
-                    <DropdownMenuItem>
-                      <Link href={`/profile/${user}/edit`}>Edit Profile</Link>
-                    </DropdownMenuItem>
+                    <Link href={`/profile/${user}/edit`}>
+                      <DropdownMenuItem>Edit Profile</DropdownMenuItem>
+                    </Link>
                   </DropdownMenuGroup>
                   <DropdownMenuSeparator />
                   <DropdownMenuGroup>
@@ -205,6 +205,7 @@ export function Navbar() {
 
       <MobileNavbar
         user={user}
+        avatarId={avatarId}
         menuState={menuState}
         setMenuState={setMenuState}
         isLoading={isLoading}

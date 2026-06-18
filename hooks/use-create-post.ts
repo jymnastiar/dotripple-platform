@@ -34,6 +34,7 @@ export function useCreatePost() {
         "image/jpg",
         "image/png",
         "image/webp",
+        "image/avif",
       ];
       if (!allowedTypes.includes(file.type)) {
         toast.error("Format image not allowed");

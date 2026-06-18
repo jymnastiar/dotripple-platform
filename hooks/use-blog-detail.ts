@@ -15,6 +15,10 @@ export function useBlogDetail(postId: string) {
     { initialNumItems: 10 },
   );
   const getUser = useQuery(api.auth.getCurrentUser);
+  const getUserInfo = useQuery(
+    api.users.getUserByBetterAuthId,
+    getUser?._id ? { betterAuthId: getUser._id } : "skip",
+  );
   const postComment = useMutation(api.comment.createComment);
   const [isPending, startTransition] = useTransition();
 
@@ -38,6 +42,7 @@ export function useBlogDetail(postId: string) {
     status,
     loadMore,
     getUser,
+    getUserInfo,
     isPending,
     form,
     handlePostComment,

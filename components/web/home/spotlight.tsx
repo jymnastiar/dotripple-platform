@@ -1,4 +1,4 @@
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { api } from "@/convex/_generated/api";
@@ -8,6 +8,7 @@ import Link from "next/link";
 import { dateFormat } from "@/hooks/date-format";
 import { HomeSpotlightLoading } from "./spotlight-loading";
 import { HomeSpotlightEmpty } from "./spotlight-empty";
+import avatars from "@/data/avatars.json";
 
 interface HomeSpotlightSectionProps {
   trandingPost: typeof api.posts.getTrendingPosts._returnType | undefined;
@@ -30,25 +31,23 @@ export default function HomeSpotlightSection({
 
       <Card className="grid grid-cols-1 lg:grid-cols-12 overflow-hidden border border-border bg-card/50 hover:bg-card/75 transition-all p-0 gap-0 min-h-80">
         <div className="lg:col-span-5 h-full min-h-[300px] lg:min-h-full relative flex flex-col items-center justify-center p-8 text-center text-white bg-linear-to-br from-slate-900 to-indigo-950 dark:from-slate-950 dark:to-indigo-900">
-          {trandingPost.imageUrl && (
-            <img
-              src={trandingPost.imageUrl}
-              alt={trandingPost.title}
-              className="absolute inset-0 w-full h-full object-cover"
-            />
-          )}
-          <div className="absolute inset-0 bg-black/10 dark:bg-black/30 backdrop-blur-xs pointer-events-none" />
-          <div className="relative z-10 flex flex-col items-center gap-4">
+          <img
+            src={trandingPost.imageUrl || "/images/no-image-available.jpg"}
+            alt={trandingPost.title}
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-black/40 dark:bg-black/60 backdrop-blur-[2px] pointer-events-none" />
+          <div className="relative z-10 flex flex-col items-center gap-4 drop-shadow-md">
             {trandingPost.tags?.[0] && (
-              <span className="px-3 py-1 rounded-full text-xs font-bold bg-white/20 text-white backdrop-blur">
+              <span className="px-3 py-1 rounded-full text-xs font-bold bg-black/30 border border-white/20 text-white backdrop-blur-md">
                 {trandingPost.tags[0]}
               </span>
             )}
-            <h3 className="text-xl md:text-2xl font-bold leading-snug px-4">
+            <h3 className="text-xl md:text-2xl font-bold leading-snug px-4 text-white">
               {trandingPost.title}
             </h3>
-            <div className="flex items-center gap-3 text-white/80">
-              <span className="text-xs text-indigo-100 font-medium">
+            <div className="flex items-center gap-3 text-white/90">
+              <span className="text-xs text-indigo-100 font-medium drop-shadow">
                 {dateFormat(trandingPost._creationTime)}
               </span>
             </div>
@@ -78,6 +77,18 @@ export default function HomeSpotlightSection({
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-4 border-t border-border/60">
             <div className="flex items-center gap-3">
               <Avatar className="size-10 border border-border">
+                {trandingPost.avatarId && (
+                  <AvatarImage
+                    src={
+                      (
+                        avatars.find(
+                          (a) => String(a.id) === trandingPost.avatarId,
+                        ) ?? avatars[0]
+                      ).src
+                    }
+                    alt="User avatar"
+                  />
+                )}
                 <AvatarFallback className="bg-primary/10 text-primary font-bold">
                   {getInitials(trandingPost.name)}
                 </AvatarFallback>

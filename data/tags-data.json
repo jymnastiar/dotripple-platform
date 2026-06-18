@@ -41,5 +41,17 @@
   {
     "value": "DevOps & Deployment",
     "items": ["Vercel", "Docker", "GitHub Actions"]
+  },
+  {
+    "value": "Others",
+    "items": [
+      "Politics",
+      "Technology",
+      "Mathematics",
+      "Cryptography & Security",
+      "Finance",
+      "Art & Illustration",
+      "Education"
+    ]
   }
 ]

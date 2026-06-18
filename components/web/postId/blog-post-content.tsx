@@ -1,10 +1,11 @@
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ArrowLeft, CalendarDays } from "lucide-react";
 import Link from "next/link";
 import { getInitials } from "@/hooks/user-initial";
 import { dateFormat } from "@/hooks/date-format";
+import avatars from "@/data/avatars.json";
 
 interface Post {
   title: string;
@@ -14,6 +15,7 @@ interface Post {
   name: string;
   username: string;
   _creationTime: number;
+  avatarId: string | undefined;
 }
 
 interface BlogPostContentProps {
@@ -64,6 +66,17 @@ export function BlogPostContent({ post }: BlogPostContentProps) {
         <div className="flex flex-col sm:flex-row sm:items-center gap-4 py-6 border-y border-border">
           <div className="flex items-center gap-3">
             <Avatar className="size-11">
+              {post.avatarId && (
+                <AvatarImage
+                  src={
+                    (
+                      avatars.find((a) => String(a.id) === post.avatarId) ??
+                      avatars[0]
+                    ).src
+                  }
+                  alt="User avatar"
+                />
+              )}
               <AvatarFallback className="text-primary font-bold bg-primary/10 dark:bg-primary/20">
                 {getInitials(post.name)}
               </AvatarFallback>
@@ -88,7 +101,7 @@ export function BlogPostContent({ post }: BlogPostContentProps) {
         <div className="prose prose-neutral dark:prose-invert max-w-none space-y-4">
           <p className="text-base leading-8 text-foreground/85">{post.body}</p>
         </div>
-        
+
         <div className="flex flex-wrap gap-2 pt-8 border-t border-border">
           {post.tags.map((tag) => (
             <Badge key={tag} variant="outline" className="text-xs">

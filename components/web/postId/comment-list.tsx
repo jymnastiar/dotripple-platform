@@ -1,14 +1,16 @@
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { MessageSquare } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { MessageSquare, Loader2 } from "lucide-react";
 import { getInitials } from "@/hooks/user-initial";
 import { timeAgo } from "@/hooks/date-format";
 import { Button } from "@/components/ui/button";
+import avatars from "@/data/avatars.json";
 
 interface CommentItem {
   _id: string;
   name: string;
   _creationTime: number;
   text: string;
+  avatarId?: string;
 }
 
 interface CommentListProps {
@@ -46,6 +48,17 @@ export function CommentList({ comments, status, loadMore }: CommentListProps) {
         {comments.map((comment) => (
           <div key={comment._id} className="flex gap-4">
             <Avatar className="size-10 shrink-0">
+              {comment.avatarId && (
+                <AvatarImage
+                  src={
+                    (
+                      avatars.find((a) => String(a.id) === comment.avatarId) ??
+                      avatars[0]
+                    ).src
+                  }
+                  alt="User avatar"
+                />
+              )}
               <AvatarFallback className="bg-blue-500/10 text-blue-500 font-semibold">
                 {getInitials(comment.name)}
               </AvatarFallback>
@@ -70,7 +83,14 @@ export function CommentList({ comments, status, loadMore }: CommentListProps) {
           onClick={() => loadMore(10)}
           disabled={status !== "CanLoadMore"}
         >
-          Load More
+          {status === "LoadingMore" ? (
+            <>
+              <Loader2 className="size-4 mr-2 animate-spin" />
+              Loading...
+            </>
+          ) : (
+            "Load More"
+          )}
         </Button>
       </div>
     </>

@@ -1,0 +1,19 @@
+<svg fill="none" height="36" viewBox="0 0 36 36" width="36" xmlns="http://www.w3.org/2000/svg">
+  <title>Avatar 17</title>
+  <mask height="36" id="mask17" maskUnits="userSpaceOnUse" width="36" x="0" y="0">
+    <rect fill="#FFFFFF" height="36" rx="72" width="36"/>
+  </mask>
+  <g mask="url(#mask17)">
+    <rect fill="#6a0572" height="36" width="36"/>
+    <polygon fill="#ff6ec7" points="18,2 21,13 32,10 24,18 32,26 21,23 18,34 15,23 4,26 12,18 4,10 15,13" transform="rotate(15 18 18) scale(1.05) translate(-0.9 -0.9)"/>
+    <circle cx="18" cy="18" fill="#6a0572" r="10"/>
+    <g transform="translate(0 0) rotate(6 18 18)">
+      <circle cx="13.5" cy="14.5" fill="#ff6ec7" r="2.5"/>
+      <circle cx="14" cy="14" fill="#000000" r="1.2"/>
+      <circle cx="22.5" cy="14.5" fill="#ff6ec7" r="2.5"/>
+      <circle cx="23" cy="14" fill="#000000" r="1.2"/>
+      <path d="M13 20 Q18 24 23 20" fill="#ff6ec7" stroke="none"/>
+      <ellipse cx="18" cy="23" fill="#ff3d8a" rx="2.5" ry="1.8"/>
+    </g>
+  </g>
+</svg>

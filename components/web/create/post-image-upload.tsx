@@ -31,13 +31,13 @@ export function PostImageUpload({
               or drag and drop
             </p>
             <p className="text-xs text-muted-foreground">
-              JPG, JPEG, PNG, or WEBP (MAX. 5MB)
+              JPG, JPEG, PNG, WEBP, or AVIF (MAX. 5MB)
             </p>
           </div>
           <Input
             id="image-upload"
             type="file"
-            accept=".jpg, .jpeg, .png, .webp"
+            accept=".jpg, .jpeg, .png, .webp, .avif"
             onChange={onFileChange}
             className="absolute inset-0 w-full opacity-0 h-full cursor-pointer z-10"
           />

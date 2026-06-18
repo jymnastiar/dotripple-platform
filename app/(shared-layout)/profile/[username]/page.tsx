@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import { ConvexHttpClient } from "convex/browser";
 import { api } from "@/convex/_generated/api";
-import { ProfileClient } from "./profile-client";
+import { ProfileClient } from "../../../../components/web/profile/profile-client";
 
 const convex = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
 
@@ -24,7 +24,8 @@ export async function generateMetadata({
 
     return {
       title: `${user.name} (@${user.username})`,
-      description: user.description || `Check out ${user.name}'s profile and posts.`,
+      description:
+        user.description || `Check out ${user.name}'s profile and posts.`,
     };
   } catch (error) {
     return {

@@ -17,8 +17,8 @@ export function Footer() {
               <Image
                 src="/dot-ripple-logo.png"
                 alt="DotRipple Logo"
-                width={1000}
-                height={1000}
+                width={128}
+                height={32}
                 className="w-32 h-auto object-contain dark:brightness-110"
               />
             </Link>

@@ -54,9 +54,10 @@ export function Navbar() {
             <Image
               src="/dot-ripple-logo.png"
               alt="DotRipple Logo"
-              width={1000}
-              height={1000}
+              width={160}
+              height={40}
               className="w-40 h-auto object-contain"
+              priority
             />
           </Link>
         </div>

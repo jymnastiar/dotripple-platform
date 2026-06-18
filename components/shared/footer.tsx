@@ -53,7 +53,7 @@ export function Footer() {
                 <InstagramLogo className="size-5" />
               </Link>
               <Link
-                href="https://dotrippel.vercel.app/profile/jymnastiar"
+                href="https://dotripple.vercel.app/profile/jymnastiar"
                 target="_blank"
                 className="p-2 rounded-lg bg-secondary hover:text-primary transition-all text-muted-foreground"
                 aria-label="DotRipple Profile"
@@ -102,26 +102,26 @@ export function Footer() {
             <ul className="space-y-3">
               <li className="text-center md:text-left">
                 <Link
-                  href="/blog?tag=Tech"
+                  href="/blog?q=Accessibility"
                   className="text-sm text-muted-foreground hover:text-primary transition-colors"
                 >
-                  Technology
+                  Accessibility
                 </Link>
               </li>
               <li className="text-center md:text-left">
                 <Link
-                  href="/blog?tag=Design"
+                  href="/blog?q=convex"
                   className="text-sm text-muted-foreground hover:text-primary transition-colors"
                 >
-                  Design
+                  Convex
                 </Link>
               </li>
               <li className="text-center md:text-left">
                 <Link
-                  href="/blog?tag=Lifestyle"
+                  href="/blog?q=typescript"
                   className="text-sm text-muted-foreground hover:text-primary transition-colors"
                 >
-                  Lifestyle
+                  TypeScript
                 </Link>
               </li>
             </ul>

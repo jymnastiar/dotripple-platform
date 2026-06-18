@@ -16,6 +16,9 @@ export const metadata: Metadata = {
   description:
     "A modern blogging platform for sharing thoughts, articles, and insights.",
   authors: [{ name: "Jymnastiar" }],
+  verification: {
+    google: "jbvByng7g4Qa3JZUV8aKHR4aY4tsr4EjoNuhONTgCg8",
+  },
 };
 
 export default function RootLayout({

@@ -28,9 +28,11 @@ export function useLogin() {
           email: data.account,
           password: data.password,
           fetchOptions: {
-            onSuccess: () => {
+            onSuccess: async () => {
               toast.success("Logged in successfully");
+              await new Promise((resolve) => setTimeout(resolve, 500));
               router.push("/");
+              router.refresh();
             },
             onError: (error) => {
               toast.error(error.error.message);

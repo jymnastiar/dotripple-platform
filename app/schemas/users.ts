@@ -12,7 +12,7 @@ export const editUserSchema = z.object({
     })
     .toLowerCase()
     .trim(),
-  description: z.optional(z.string().min(10).max(300)),
+  description: z.union([z.literal(""), z.string().min(10).max(300)]).optional(),
   avatarId: z.optional(z.string()),
   twitterAccount: z.union([
     z.literal(""),

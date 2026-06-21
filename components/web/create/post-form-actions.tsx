@@ -10,7 +10,7 @@ interface PostFormActionsProps {
 
 export function PostFormActions({ isPending, onCancel }: PostFormActionsProps) {
   return (
-    <div className="flex flex-col gap-3 w-full">
+    <div className="flex flex-col gap-3 w-full max-w-sm">
       <Button
         disabled={isPending}
         form="post-form"

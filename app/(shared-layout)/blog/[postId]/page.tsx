@@ -23,8 +23,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       };
     }
 
+    const plainTextBody = post.body.replace(/<[^>]+>/g, "");
     const shortDescription =
-      post.body.length > 150 ? `${post.body.slice(0, 150)}...` : post.body;
+      plainTextBody.length > 150
+        ? `${plainTextBody.slice(0, 150)}...`
+        : plainTextBody;
 
     return {
       title: post.title,

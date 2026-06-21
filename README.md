@@ -16,6 +16,7 @@
 
 - **⚡ Real-time Publishing**: Instant updates and reactive queries powered by Convex.
 - **💬 Dynamic & Secure Comments**: Engage with authors safely with robust server-side authentication and role-based comment moderation.
+- **📝 Rich Text Editor**: Seamless writing and formatting experience powered by TipTap.
 - **👤 Creator Spotlight**: Custom user profile cards showcasing bios, avatars, and linked social channels (GitHub, LinkedIn, Twitter/X, Instagram).
 - **🎨 Premium Aesthetic**: A beautiful dark/light mode UI built with custom glassmorphism, responsive grids, and micro-interactions.
 - **🔒 Secure Architecture**: Robust server-side authorization preventing spoofing (IDOR) and database integrity checks.
@@ -29,6 +30,7 @@
 - **Core**: [Next.js](https://nextjs.org/)
 - **Styling**: [Tailwind CSS](https://tailwindcss.com/)
 - **Forms & Validation**: [React Hook Form](https://react-hook-form.com/) & [Zod](https://zod.dev/)
+- **Rich Text Editor**: [TipTap](https://tiptap.dev/)
 - **UI Components**: [Shadcn UI](https://ui.shadcn.com/)
 
 ### Backend
@@ -81,3 +83,9 @@ Navigate to [http://localhost:3000](http://localhost:3000) in your browser to vi
 
 - **Server-side Authorization**: Session tokens are verified securely on the Convex backend for all mutative operations (creating/deleting comments, updating profiles).
 - **Input Sanitization**: React automatically sanitizes all rendered variables (escaping HTML entities) to guard against XSS. Skema Zod ensures input format conformance.
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

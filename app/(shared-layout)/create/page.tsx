@@ -15,7 +15,6 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { PenLine } from "lucide-react";
 import { Controller } from "react-hook-form";
 import { useCreatePost } from "@/hooks/use-create-post";
@@ -23,6 +22,7 @@ import { useRouter } from "next/navigation";
 import { PostImageUpload } from "@/components/web/create/post-image-upload";
 import { PostTagsField } from "@/components/web/create/post-tags-field";
 import { PostFormActions } from "@/components/web/create/post-form-actions";
+import Tiptap from "@/components/shared/TipTap";
 
 export default function CreatePage() {
   const router = useRouter();
@@ -38,7 +38,7 @@ export default function CreatePage() {
 
   return (
     <section className="py-12 md:py-16 flex flex-col gap-12 w-full">
-      <div className="relative flex flex-col items-center text-center gap-4 max-w-3xl mx-auto">
+      <div className="relative flex flex-col items-center text-center gap-4 w-full max-w-4xl mx-auto">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary/20 dark:border-primary/40 bg-primary/5 dark:bg-primary/20 text-primary text-xs font-semibold animate-pulse">
           <PenLine className="size-3" />
           <span>Share Your Thoughts With The World</span>
@@ -53,7 +53,7 @@ export default function CreatePage() {
         </p>
       </div>
 
-      <Card className="w-full max-w-2xl mx-auto gap-5">
+      <Card className="w-full max-w-4xl mx-auto gap-5">
         <CardHeader>
           <CardTitle>Create Blog Article</CardTitle>
           <CardDescription>
@@ -99,11 +99,12 @@ export default function CreatePage() {
                 render={({ field, fieldState }) => (
                   <Field>
                     <FieldLabel>Content</FieldLabel>
-                    <Textarea
+                    {/* <Textarea
                       aria-invalid={fieldState.invalid}
                       placeholder="Write your article content here..."
                       {...field}
-                    />
+                    /> */}
+                    <Tiptap content={field.value} onChange={field.onChange} />
                     {fieldState.error && (
                       <FieldError errors={[fieldState.error]} />
                     )}
@@ -115,7 +116,7 @@ export default function CreatePage() {
             </FieldGroup>
           </form>
         </CardContent>
-        <CardFooter className="flex mt-5 flex-col gap-3">
+        <CardFooter className="mt-5 flex w-full justify-center">
           <PostFormActions
             isPending={isPending}
             onCancel={() => router.back()}

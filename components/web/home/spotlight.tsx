@@ -69,9 +69,10 @@ export default function HomeSpotlightSection({
             <h3 className="text-xl md:text-2xl font-bold tracking-tight text-foreground hover:text-primary transition-colors cursor-pointer">
               {trandingPost.title}
             </h3>
-            <p className="text-sm text-muted-foreground leading-relaxed line-clamp-5">
-              {trandingPost.body}
-            </p>
+            <p
+              dangerouslySetInnerHTML={{ __html: trandingPost.body }}
+              className="tiptap-card text-sm text-muted-foreground leading-relaxed line-clamp-5"
+            ></p>
           </div>
 
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-4 border-t border-border/60">

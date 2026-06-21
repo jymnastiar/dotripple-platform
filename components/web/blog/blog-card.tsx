@@ -69,9 +69,10 @@ export function BlogCard({
           <CardTitle className="text-lg font-bold tracking-tight line-clamp-2 hover:text-primary transition-colors cursor-pointer">
             <Link href={`/blog/${_id}`}>{title}</Link>
           </CardTitle>
-          <CardDescription className="text-sm text-muted-foreground line-clamp-3 leading-relaxed">
-            {body}
-          </CardDescription>
+          <CardDescription
+            dangerouslySetInnerHTML={{ __html: body }}
+            className="text-sm text-muted-foreground line-clamp-3 leading-relaxed tiptap-card"
+          ></CardDescription>
         </div>
 
         {_creationTime && (

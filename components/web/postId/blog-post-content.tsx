@@ -99,7 +99,10 @@ export function BlogPostContent({ post }: BlogPostContentProps) {
         </div>
 
         <div className="prose prose-neutral dark:prose-invert max-w-none space-y-4">
-          <p className="text-base leading-8 text-foreground/85">{post.body}</p>
+          <p
+            className="text-base leading-8 text-foreground/85 tiptap"
+            dangerouslySetInnerHTML={{ __html: post.body }}
+          ></p>
         </div>
 
         <div className="flex flex-wrap gap-2 pt-8 border-t border-border">

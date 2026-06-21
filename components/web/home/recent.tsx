@@ -75,9 +75,10 @@ export default function HomeRecentSection({
                   <CardTitle className="text-lg font-bold tracking-tight line-clamp-2 hover:text-primary transition-colors cursor-pointer">
                     {post.title}
                   </CardTitle>
-                  <CardDescription className="text-sm text-muted-foreground line-clamp-3 leading-relaxed">
-                    {post.body}
-                  </CardDescription>
+                  <CardDescription
+                    dangerouslySetInnerHTML={{ __html: post.body }}
+                    className="tiptap-card text-sm text-muted-foreground line-clamp-3 leading-relaxed"
+                  ></CardDescription>
                 </div>
 
                 <div className="flex items-center justify-between text-xs text-muted-foreground pt-3 border-t border-border/40">

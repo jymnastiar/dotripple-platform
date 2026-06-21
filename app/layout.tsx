@@ -5,6 +5,7 @@ import { DM_Sans } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { ConvexClientProvider } from "@/components/shared/convex-client-provider";
 import { Toaster } from "@/components/ui/sonner";
+import { Analytics } from "@vercel/analytics/next";
 
 const dmSans = DM_Sans({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -42,6 +43,7 @@ export default function RootLayout({
           </ThemeProvider>
         </main>
         <Toaster closeButton />
+        <Analytics />
       </body>
     </html>
   );

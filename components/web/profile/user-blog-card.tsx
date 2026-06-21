@@ -54,7 +54,10 @@ export function UserBlogCard(blogs: BlogCard) {
           <Badge variant="secondary">{blogs.tags[0]}</Badge>
         </CardAction>
         <CardTitle className="truncate">{blogs.title}</CardTitle>
-        <CardDescription className="line-clamp-2">{blogs.body}</CardDescription>
+        <CardDescription
+          className="line-clamp-2 tiptap-card"
+          dangerouslySetInnerHTML={{ __html: blogs.body }}
+        ></CardDescription>
       </CardHeader>
       <CardFooter className="lg:p-3 flex gap-2">
         <Link
